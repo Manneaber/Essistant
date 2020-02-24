@@ -1,4 +1,7 @@
+import 'package:essistant/routes/calenda_route.dart';
 import 'package:essistant/routes/overview_route.dart';
+import 'package:essistant/routes/search_route.dart';
+import 'package:essistant/routes/setting_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +13,9 @@ class MainView extends StatefulWidget {
 class MainViewState extends State<MainView> {
   List<Widget> _views = [
     OverviewRoute(),
+    SearchRoute(),
+    CalendaRoute(),
+    SettingRoute(),
   ];
 
   Widget _currentView;
@@ -22,8 +28,9 @@ class MainViewState extends State<MainView> {
 
   void changeView(int id) {
     setState(() {
-      _currentView = _views[id];
-    }); 
+      _currentIndex = id;
+      _currentView = _views[_currentIndex];
+    });
   }
 
   @override
@@ -33,9 +40,7 @@ class MainViewState extends State<MainView> {
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.shifting,
         onTap: (id) {
-          setState(() {
-            _currentIndex = id;
-          });
+          changeView(id);
         },
         items: [
           BottomNavigationBarItem(
@@ -49,8 +54,8 @@ class MainViewState extends State<MainView> {
             backgroundColor: Colors.purple,
           ),
           BottomNavigationBarItem(
-            title: Text("Note"),
-            icon: Icon(Icons.note),
+            title: Text("Calenda"),
+            icon: Icon(Icons.calendar_today),
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
