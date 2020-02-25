@@ -11,7 +11,9 @@ class _OverviewRouteState extends State<OverviewRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: AnimatedFloatingButton(),
+      floatingActionButton: AnimatedFloatingButton(
+        onPressed: () {},
+      ),
       body: Column(
         children: [
           Container(
