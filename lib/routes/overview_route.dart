@@ -1,25 +1,17 @@
+import 'package:essistant/routes/widgets/animated_floating_button.dart';
 import 'package:essistant/routes/widgets/overview_chart.dart';
 import 'package:flutter/material.dart';
 
 class OverviewRoute extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => OverviewRouteState();
+  State<StatefulWidget> createState() => _OverviewRouteState();
 }
 
-class OverviewRouteState extends State<OverviewRoute> {
+class _OverviewRouteState extends State<OverviewRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).bottomAppBarColor,
-        elevation: 0,
-        focusElevation: 0,
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).accentColor,
-        ),
-        onPressed: () {},
-      ),
+      floatingActionButton: AnimatedFloatingButton(),
       body: Column(
         children: [
           Container(

@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 class MainView extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => MainViewState();
+  State<StatefulWidget> createState() => _MainViewState();
 }
 
-class MainViewState extends State<MainView> {
+class _MainViewState extends State<MainView> {
   List<Widget> _views = [
     OverviewRoute(),
     SearchRoute(),
@@ -19,7 +19,7 @@ class MainViewState extends State<MainView> {
   Widget _currentView;
   int _currentIndex;
 
-  MainViewState() {
+  _MainViewState() {
     _currentIndex = 0;
     _currentView = _views[_currentIndex];
   }

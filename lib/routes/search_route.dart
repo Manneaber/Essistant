@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchRoute extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return SearchRouteState();
-  }
+  State<StatefulWidget> createState() => _SearchRouteState();
 }
 
-class SearchRouteState extends State<SearchRoute> {
+class _SearchRouteState extends State<SearchRoute> {
   final TextEditingController _searchText = new TextEditingController();
   List<Widget> _serchAction;
 
