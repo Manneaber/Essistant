@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class SearchRoute extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return SearchRouteState();
   }
 }
@@ -18,7 +17,6 @@ class SearchRouteState extends State<SearchRoute> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.purple,
         actions: _serchAction,
         title: SizedBox(
           height: 45,
@@ -48,7 +46,7 @@ class SearchRouteState extends State<SearchRoute> {
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-              hintText: "Search",
+              hintText: "ค้นหาอะไรก็ได้ แค่พิมพ์ที่นี้",
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(

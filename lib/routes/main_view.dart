@@ -1,4 +1,3 @@
-import 'package:essistant/routes/calenda_route.dart';
 import 'package:essistant/routes/overview_route.dart';
 import 'package:essistant/routes/search_route.dart';
 import 'package:essistant/routes/setting_route.dart';
@@ -14,7 +13,6 @@ class MainViewState extends State<MainView> {
   List<Widget> _views = [
     OverviewRoute(),
     SearchRoute(),
-    CalendaRoute(),
     SettingRoute(),
   ];
 
@@ -38,30 +36,21 @@ class MainViewState extends State<MainView> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        type: BottomNavigationBarType.shifting,
         onTap: (id) {
           changeView(id);
         },
         items: [
           BottomNavigationBarItem(
-            title: Text("Overview"),
+            title: Text("ภาพรวม"),
             icon: Icon(Icons.book),
-            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
-            title: Text("Search"),
+            title: Text("ค้นหา"),
             icon: Icon(Icons.search),
-            backgroundColor: Colors.purple,
           ),
           BottomNavigationBarItem(
-            title: Text("Calenda"),
-            icon: Icon(Icons.calendar_today),
-            backgroundColor: Colors.red,
-          ),
-          BottomNavigationBarItem(
-            title: Text("Settings"),
+            title: Text("ตั้งค่า"),
             icon: Icon(Icons.settings),
-            backgroundColor: Colors.green,
           ),
         ],
         elevation: 0,

@@ -1,4 +1,4 @@
-import 'package:essistant/routes/widgets/pie_chart.dart';
+import 'package:essistant/routes/widgets/overview_chart.dart';
 import 'package:flutter/material.dart';
 
 class OverviewRoute extends StatefulWidget {
