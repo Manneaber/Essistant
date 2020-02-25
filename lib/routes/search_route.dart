@@ -43,7 +43,7 @@ class _SearchRouteState extends State<SearchRoute> {
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-              hintText: "ค้นหาอะไรก็ได้ แค่พิมพ์ที่นี้",
+              hintText: "ค้นหาอะไรก็ได้ แค่พิมพ์ที่นี่",
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
