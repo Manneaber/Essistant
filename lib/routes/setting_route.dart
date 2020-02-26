@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +62,28 @@ class SettingRoute extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("ลบทั้งหมด?"),
+                      content: Text("แน่ใจนะว่าจะลบทั้งหมด"),
+                      actions: <Widget>[
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("YES")),
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("No")),
+                      ],
+                    );
+                  });
+            },
             child: Container(
               height: 70,
               child: Row(
