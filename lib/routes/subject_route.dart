@@ -28,24 +28,24 @@ class _SubjectRouteState extends State<SubjectRoute> {
           ),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.circular(25),
-              ),
               child: ListView.separated(
                   itemBuilder: (context, position) {
                     return Container(
-                      child: Text(position.toString()),
+                      child: Text("subject : " + (position+1).toString()),
+                      padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
                     );
                   },
                   separatorBuilder: (context, position) {
                     return Container(
                       height: 70,
                       width: double.maxFinite,
-                      color: Colors.black12,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: Colors.black12,
+                      ),
                     );
                   },
-                  itemCount: 5),
+                  itemCount: 10),
             ),
           ),
         ],
