@@ -1,7 +1,9 @@
 import 'package:essistant/routes/main_view.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -10,12 +12,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        accentColor: Colors.white,
-        unselectedWidgetColor: Colors.white60,
-        bottomAppBarColor: Colors.blue,
-        fontFamily: 'Kanit'
-      ),
+          primarySwatch: Colors.blue,
+          accentColor: Colors.white,
+          unselectedWidgetColor: Colors.white60,
+          bottomAppBarColor: Colors.blue,
+          fontFamily: 'Kanit'),
       home: MainView(),
     );
   }

@@ -14,6 +14,7 @@ class _MainViewState extends State<MainView> {
     OverviewRoute(),
     SearchRoute(),
     SettingRoute(),
+    SettingRoute(),
   ];
 
   Widget _currentView;
@@ -35,6 +36,7 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (id) {
           changeView(id);
@@ -47,6 +49,10 @@ class _MainViewState extends State<MainView> {
           BottomNavigationBarItem(
             title: Text("ค้นหา"),
             icon: Icon(Icons.search),
+          ),
+          BottomNavigationBarItem(
+            title: Text("วิชา"),
+            icon: Icon(Icons.business_center),
           ),
           BottomNavigationBarItem(
             title: Text("ตั้งค่า"),

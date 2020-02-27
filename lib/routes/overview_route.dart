@@ -1,82 +1,109 @@
+import 'package:essistant/repository/data/AssignmentData.dart';
+import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:essistant/routes/widgets/animated_floating_button.dart';
-import 'package:essistant/routes/widgets/overview_chart.dart';
+import 'package:essistant/routes/widgets/overview_feed_maker.dart';
+import 'package:essistant/routes/widgets/overview_top_widget.dart';
 import 'package:flutter/material.dart';
 
 class OverviewRoute extends StatefulWidget {
+  FeedMaker maker = FeedMaker();
+
   @override
   State<StatefulWidget> createState() => _OverviewRouteState();
 }
 
 class _OverviewRouteState extends State<OverviewRoute> {
+  SubjectData subject1 = SubjectData(
+    id: 0,
+    title: 'Test Subject',
+    teacher: 'Dinodorinna',
+  );
+
+  List<AssignmentData> _fakeData1;
+  List<AssignmentData> _fakeData2;
+  List<AssignmentData> _fakeData3;
+
+  _OverviewRouteState() {
+    _fakeData1 = [
+      AssignmentData(
+        title: 'โปรเกสงาน Android Term Project',
+        desc:
+            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
+        color: Colors.indigo,
+        timestamp: DateTime.now(),
+        dueDate: DateTime.now(),
+        attachments: [],
+        subject: subject1,
+      ),
+    ];
+
+    _fakeData2 = [
+      AssignmentData(
+        title: 'โปรเกสงาน Android Term Project',
+        desc:
+            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
+        color: Colors.indigo,
+        timestamp: DateTime.now(),
+        dueDate: DateTime.now(),
+        attachments: [],
+        subject: subject1,
+      ),
+      AssignmentData(
+        title: 'โปรเกสงาน Android Term Project',
+        desc:
+            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
+        color: Colors.indigo,
+        timestamp: DateTime.now(),
+        dueDate: DateTime.now(),
+        attachments: [],
+        subject: subject1,
+      ),
+    ];
+
+    _fakeData3 = [
+      AssignmentData(
+        title: 'โปรเกสงาน Android Term Project',
+        desc:
+            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
+        color: Colors.indigo,
+        timestamp: DateTime.now(),
+        dueDate: DateTime.now(),
+        attachments: [],
+        subject: subject1,
+      ),
+      AssignmentData(
+        title: 'โปรเกสงาน Android Term Project',
+        desc:
+            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
+        color: Colors.indigo,
+        timestamp: DateTime.now(),
+        dueDate: DateTime.now(),
+        attachments: [],
+        subject: subject1,
+      ),
+      AssignmentData(
+        title: 'โปรเกสงาน Android Term Project',
+        desc:
+            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
+        color: Colors.indigo,
+        timestamp: DateTime.now(),
+        dueDate: DateTime.now(),
+        attachments: [],
+        subject: subject1,
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: AnimatedFloatingButton(
-        onPressed: () {},
-      ),
-      body: Column(
+      appBar: OverviewTop(),
+      floatingActionButton: AnimatedFloatingButton(),
+      body: ListView(
         children: [
-          Container(
-            height: 200,
-            padding: EdgeInsets.fromLTRB(
-                15, 15 + MediaQuery.of(context).padding.top, 15, 15),
-            color: Theme.of(context).primaryColor,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 160,
-                  height: 160,
-                  child: OverviewChart.withSampleData(),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 15),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "สรุปงานในสัปดาห์นี้",
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          "งานที่ต้องส่งในวันนี้ 3 งาน",
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          "งานที่ต้องส่งในสัปดาห์นี้ 6 งาน",
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          "งานที่ทำเสร็จแล้ว 3 งาน",
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+          widget.maker.create(title: "วันนี้", assignments: _fakeData1),
+          widget.maker.create(title: "พรุ่งนี้", assignments: _fakeData2),
+          widget.maker.create(title: "มะรืน", assignments: _fakeData3),
         ],
       ),
     );
