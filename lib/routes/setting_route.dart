@@ -51,7 +51,9 @@ class _SettingRouteState extends State<SettingRoute> {
                 SizedBox(
                   height: 75,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      drive.login();
+                    },
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,

@@ -48,6 +48,10 @@ class GoogleDriveRepository {
     return credentials != null;
   }
 
+  Future login() async {
+    await _getHttpClient();
+  }
+
   //Upload File
   Future upload(File file) async {
     var client = await _getHttpClient();

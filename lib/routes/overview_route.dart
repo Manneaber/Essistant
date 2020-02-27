@@ -101,6 +101,7 @@ class _OverviewRouteState extends State<OverviewRoute> {
       floatingActionButton: AnimatedFloatingButton(),
       backgroundColor: Colors.white,
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
           widget.maker.create(title: "งานในวันนี้", assignments: _fakeData1),
           widget.maker.create(title: "งานในวันพรุ่งนี้", assignments: _fakeData2),
