@@ -29,18 +29,26 @@ class _SubjectRouteState extends State<SubjectRoute> {
               child: ListView.separated(
                   separatorBuilder: (context, position) {
                     return Container(
-                      child: Text("subject : " + (position + 1).toString()),
-                      padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
                     );
                   },
                   itemBuilder: (context, position) {
-                    return Container(
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                      child: Text("subject : " + (position + 1).toString()),
+                      padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
+                    ),
+                        Container(
                       height: 70,
                       width: double.maxFinite,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         color: Colors.black12,
                       ),
+                    ),
+                      ],
+
                     );
                   },
                   itemCount: 10),
