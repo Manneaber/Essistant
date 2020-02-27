@@ -69,25 +69,31 @@ class _FeedTemplate extends StatelessWidget {
             child: Container(color: Colors.blue),
           ),
           SizedBox(width: 15),
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                assignment.title,
-                maxLines: 1,
-                overflow: TextOverflow.clip,
-                style: TextStyle(fontSize: 15),
-              ),
-              Text(
-                assignment.title,
-                maxLines: 1,
-                overflow: TextOverflow.clip,
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w300, ),
-              )
-            ],
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  assignment.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(fontSize: 15),
+                ),
+                Text(
+                  assignment.desc,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w300,
+                  ),
+                )
+              ],
+            ),
           ),
+          SizedBox(width: 18),
         ],
       ),
     );
