@@ -117,7 +117,7 @@ class _FeedTemplate extends StatelessWidget {
                   ),
                   Text(
                     "กำหนดส่ง " +
-                        DateFormat("dd MMMM yyyy H:m", 'en_US')
+                        DateFormat("dd MMMM yyyy HH:mm", 'en_US')
                             .format(assignment.dueDate),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
