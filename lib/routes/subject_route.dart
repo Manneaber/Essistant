@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class SubjectRoute extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _SubjectRouteState();
   }
 }
@@ -12,7 +11,6 @@ class SubjectRoute extends StatefulWidget {
 class _SubjectRouteState extends State<SubjectRoute> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text("วิชา"),
@@ -29,13 +27,13 @@ class _SubjectRouteState extends State<SubjectRoute> {
           Expanded(
             child: Container(
               child: ListView.separated(
-                  itemBuilder: (context, position) {
+                  separatorBuilder: (context, position) {
                     return Container(
-                      child: Text("subject : " + (position+1).toString()),
+                      child: Text("subject : " + (position + 1).toString()),
                       padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
                     );
                   },
-                  separatorBuilder: (context, position) {
+                  itemBuilder: (context, position) {
                     return Container(
                       height: 70,
                       width: double.maxFinite,

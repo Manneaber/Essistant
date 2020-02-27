@@ -30,6 +30,24 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
     _buttonColor = backgroundColor;
   }
 
+  void toggleState() {
+    if (!_openDrawer) {
+      _icon = Icons.close;
+      _buttonColor = widget.pressedBackgroundColor;
+      _translateX = 0;
+    } else {
+      _icon = Icons.add;
+      _buttonColor = widget.backgroundColor;
+      _translateX = 500;
+    }
+    setState(() {
+      _openDrawer = !_openDrawer;
+    });
+
+    // Callback
+    widget.onPressed();
+  }
+
   Widget _toggle() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -41,21 +59,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
         SizedBox(width: 20),
         FloatingActionButton(
           onPressed: () {
-            if (!_openDrawer) {
-              _icon = Icons.close;
-              _buttonColor = widget.pressedBackgroundColor;
-              _translateX = 0;
-            } else {
-              _icon = Icons.add;
-              _buttonColor = widget.backgroundColor;
-              _translateX = 500;
-            }
-            setState(() {
-              _openDrawer = !_openDrawer;
-            });
-
-            // Callback
-            widget.onPressed();
+            toggleState();
           },
           backgroundColor: _buttonColor,
           child: Icon(_icon, color: widget.iconColor),
@@ -124,8 +128,13 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
               16,
               0.0,
             ),
-            child: Container(
-              color: Colors.black87,
+            child: GestureDetector(
+              onTap: () {
+                toggleState();
+              },
+              child: Container(
+                color: Colors.black87,
+              ),
             ),
           ),
         ),

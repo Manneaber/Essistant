@@ -35,33 +35,33 @@ class _OverviewTopState extends State<OverviewTop> {
                     maxLines: 1,
                     style: TextStyle(
                       color: Theme.of(context).accentColor,
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(height: 15),
                   Text(
-                    "งานที่ต้องส่งในวันนี้ 3 งาน",
+                    "วันนี้ 3 งาน",
                     maxLines: 1,
                     style: TextStyle(
                       color: Theme.of(context).accentColor,
-                      fontSize: 16,
+                      fontSize: 15,
                     ),
                   ),
                   Text(
-                    "งานที่ต้องส่งในสัปดาห์นี้ 6 งาน",
+                    "สัปดาห์นี้ 6 งาน",
                     maxLines: 1,
                     style: TextStyle(
                       color: Theme.of(context).accentColor,
-                      fontSize: 16,
+                      fontSize: 15,
                     ),
                   ),
                   Text(
-                    "งานที่ทำเสร็จแล้ว 3 งาน",
+                    "ทำเสร็จแล้ว 3 งาน",
                     maxLines: 1,
                     style: TextStyle(
                       color: Theme.of(context).accentColor,
-                      fontSize: 16,
+                      fontSize: 15,
                     ),
                   ),
                   SizedBox(height: 5),
