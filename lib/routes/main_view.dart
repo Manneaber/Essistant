@@ -1,6 +1,7 @@
 import 'package:essistant/routes/overview_route.dart';
 import 'package:essistant/routes/search_route.dart';
 import 'package:essistant/routes/setting_route.dart';
+import 'package:essistant/routes/subject_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class _MainViewState extends State<MainView> {
   List<Widget> _views = [
     OverviewRoute(),
     SearchRoute(),
-    SettingRoute(),
+    SubjectRoute(),
     SettingRoute(),
   ];
 
