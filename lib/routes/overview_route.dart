@@ -99,12 +99,13 @@ class _OverviewRouteState extends State<OverviewRoute> {
     return Scaffold(
       appBar: OverviewTop(),
       floatingActionButton: AnimatedFloatingButton(),
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       body: ListView(
         children: [
-          widget.maker.create(title: "วันนี้", assignments: _fakeData1),
-          widget.maker.create(title: "พรุ่งนี้", assignments: _fakeData2),
-          widget.maker.create(title: "มะรืน", assignments: _fakeData3),
+          widget.maker.create(title: "งานในวันนี้", assignments: _fakeData1),
+          widget.maker.create(title: "งานในวันพรุ่งนี้", assignments: _fakeData2),
+          widget.maker.create(title: "งานในวันมะรืน", assignments: _fakeData3),
+          SizedBox(height: 25),
         ],
       ),
     );

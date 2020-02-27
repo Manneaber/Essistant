@@ -42,9 +42,9 @@ class FeedMaker {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[100],
         borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: Colors.grey[300]),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -62,7 +62,7 @@ class FeedMaker {
         SizedBox(width: 70),
         Expanded(
           child: Container(
-            color: Colors.black12,
+            color: Colors.grey[300],
             height: 1,
           ),
         ),

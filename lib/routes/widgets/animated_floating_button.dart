@@ -34,7 +34,10 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Visibility(visible: _openDrawer, child: Text("ปิด", style: TextStyle(fontSize: 16))),
+        Visibility(
+            visible: _openDrawer,
+            child: Text("ปิด",
+                style: TextStyle(fontSize: 16, color: Colors.white))),
         SizedBox(width: 20),
         FloatingActionButton(
           onPressed: () {
@@ -65,7 +68,8 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Text("เพิ่มงานใหม่", style: TextStyle(fontSize: 16)),
+        Text("เพิ่มงานใหม่",
+            style: TextStyle(fontSize: 16, color: Colors.white)),
         SizedBox(width: 20),
         FloatingActionButton(
           onPressed: () {},
@@ -80,7 +84,8 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Text("เพิ่มคลิปเสียง", style: TextStyle(fontSize: 16)),
+        Text("เพิ่มคลิปเสียง",
+            style: TextStyle(fontSize: 16, color: Colors.white)),
         SizedBox(width: 20),
         FloatingActionButton(
           onPressed: () {},
@@ -95,7 +100,8 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Text("เพิ่มรูปภาพ", style: TextStyle(fontSize: 16)),
+        Text("เพิ่มรูปภาพ",
+            style: TextStyle(fontSize: 16, color: Colors.white)),
         SizedBox(width: 20),
         FloatingActionButton(
           onPressed: () {},
@@ -108,37 +114,54 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Transform(
+    return Stack(
+      children: <Widget>[
+        Visibility(
+          visible: _openDrawer,
+          child: Transform(
             transform: Matrix4.translationValues(
-              _translateX,
-              -30,
+              16,
+              16,
               0.0,
             ),
-            child: _image(),
-          ),
-          Transform(
-            transform: Matrix4.translationValues(
-              _translateX,
-              -20,
-              0.0,
+            child: Container(
+              color: Colors.black87,
             ),
-            child: _voice(),
           ),
-          Transform(
-            transform: Matrix4.translationValues(
-              _translateX,
-              -10,
-              0.0,
-            ),
-            child: _assignment(),
+        ),
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Transform(
+                transform: Matrix4.translationValues(
+                  _translateX,
+                  -30,
+                  0.0,
+                ),
+                child: _image(),
+              ),
+              Transform(
+                transform: Matrix4.translationValues(
+                  _translateX,
+                  -20,
+                  0.0,
+                ),
+                child: _voice(),
+              ),
+              Transform(
+                transform: Matrix4.translationValues(
+                  _translateX,
+                  -10,
+                  0.0,
+                ),
+                child: _assignment(),
+              ),
+              _toggle(),
+            ],
           ),
-          _toggle(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
