@@ -6,7 +6,7 @@ import 'package:essistant/routes/widgets/overview_top_widget.dart';
 import 'package:flutter/material.dart';
 
 class OverviewRoute extends StatefulWidget {
-  FeedMaker maker = FeedMaker();
+  final FeedMaker maker = FeedMaker();
 
   @override
   State<StatefulWidget> createState() => _OverviewRouteState();
@@ -99,6 +99,7 @@ class _OverviewRouteState extends State<OverviewRoute> {
     return Scaffold(
       appBar: OverviewTop(),
       floatingActionButton: AnimatedFloatingButton(),
+      backgroundColor: Colors.grey[100],
       body: ListView(
         children: [
           widget.maker.create(title: "วันนี้", assignments: _fakeData1),
