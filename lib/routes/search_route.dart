@@ -12,8 +12,10 @@ class _SearchRouteState extends State<SearchRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        elevation: 0,
+        
+        elevation: 0.5,
         actions: _serchAction,
         title: SizedBox(
           height: 45,
@@ -33,8 +35,8 @@ class _SearchRouteState extends State<SearchRoute> {
                     child: Text(
                       "ยกเลิก",
                       style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.white,
+                        fontSize: 16,
+                        color: Colors.black87,
                       ),
                     ),
                   ),
