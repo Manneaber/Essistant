@@ -1,6 +1,7 @@
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/routes/addtask_route.dart';
 import 'package:essistant/routes/main_view.dart';
+import 'package:essistant/routes/subjectpicker_route.dart';
 import 'package:flutter/material.dart';
 
 final navigationKey = GlobalKey<NavigatorState>();
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/main': (context) => MainView(),
         '/addtask': (context) => AddTaskRoute(),
+        '/picksubject': (context) => SubjectPickerRoute(),
       },
       navigatorKey: navigationKey,
     );

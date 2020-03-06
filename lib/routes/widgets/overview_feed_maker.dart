@@ -65,7 +65,7 @@ class FeedMaker {
         Expanded(
           child: Container(
             color: Colors.grey[300],
-            height: 1,
+            height: 0.5,
           ),
         ),
         SizedBox(width: 20),
@@ -74,55 +74,59 @@ class FeedMaker {
   }
 
   Widget _buildBody(AssignmentData assignment) {
-    return InkWell(
-      onTap: () {},
-      child: SizedBox(
-        height: 75,
-        child: Row(
-          children: <Widget>[
-            SizedBox(width: 15),
-            SizedBox(
-              width: 40,
-              height: 40,
-              child: CircleAvatar(
-                backgroundColor: Colors.blue,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {},
+        child: SizedBox(
+          height: 75,
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 15),
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue,
+                ),
               ),
-            ),
-            SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    assignment.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  Text(
-                    assignment.desc,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
+              SizedBox(width: 15),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      assignment.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 15),
                     ),
-                  ),
-                  Text(
-                    "กำหนดส่ง " +
-                        DateFormat("dd MMMM yyyy HH:mm", 'en_US')
-                            .format(assignment.dueDate),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
-                  ),
-                ],
+                    Text(
+                      assignment.desc,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    Text(
+                      "กำหนดส่ง " +
+                          DateFormat("dd MMMM yyyy HH:mm", 'en_US')
+                              .format(assignment.dueDate),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(width: 18),
-          ],
+              SizedBox(width: 18),
+            ],
+          ),
         ),
       ),
     );
