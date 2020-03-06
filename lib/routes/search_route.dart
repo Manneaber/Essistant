@@ -47,7 +47,7 @@ class _SearchRouteState extends State<SearchRoute> {
               contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
               hintText: "ค้นหาอะไรก็ได้ แค่พิมพ์ที่นี่...",
               filled: true,
-              fillColor: Colors.white,
+              fillColor: Colors.grey[200],
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.all(
