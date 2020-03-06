@@ -10,7 +10,7 @@ class AddTaskRoute extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("เพิ่มการบ้านใหม่"),
-        centerTitle: true,
+        centerTitle: true,  
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.close),
@@ -58,7 +58,6 @@ class AddTaskRoute extends StatelessWidget {
                             height: 40,
                             child: CircleAvatar(
                               backgroundColor: Colors.blue,
-                              child: Icon(Icons.ac_unit),
                             ),
                           ),
                           SizedBox(width: 15),
@@ -153,8 +152,7 @@ class AddTaskRoute extends StatelessWidget {
                           SizedBox(
                             width: 40,
                             height: 40,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.blue,
+                            child: Center(
                               child: Icon(Icons.ac_unit),
                             ),
                           ),

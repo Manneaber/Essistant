@@ -34,8 +34,8 @@ class OverviewChart extends StatelessWidget {
       domainAxis: OrdinalAxisSpec(
         showAxisLine: false,
         renderSpec: SmallTickRendererSpec(
-          labelStyle: TextStyleSpec(fontSize: 14, color: MaterialPalette.white),
-          lineStyle: LineStyleSpec(color: MaterialPalette.white),
+          labelStyle: TextStyleSpec(fontSize: 14, color: MaterialPalette.blue.shadeDefault),
+          lineStyle: LineStyleSpec(color: MaterialPalette.blue.shadeDefault),
         ),
       ),
     );
@@ -58,7 +58,7 @@ class OverviewChart extends StatelessWidget {
         id: 'Sales',
         domainFn: (LinearSales sales, _) => sales.day,
         measureFn: (LinearSales sales, _) => sales.sales,
-        colorFn: (LinearSales sales, _) => Color.white,
+        colorFn: (LinearSales sales, _) => MaterialPalette.blue.shadeDefault,
         labelAccessorFn: (LinearSales sales, _) => '\$${sales.sales.toString()}',
         data: data,
       )

@@ -27,28 +27,27 @@ class _SubjectRouteState extends State<SubjectRoute> {
           Expanded(
             child: Container(
               child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
                   separatorBuilder: (context, position) {
-                    return Container(
-                    );
+                    return Container();
                   },
                   itemBuilder: (context, position) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                      child: Text("subject : " + (position + 1).toString()),
-                      padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
-                    ),
+                          child: Text("subject : " + (position + 1).toString()),
+                          padding: EdgeInsets.fromLTRB(10, 5, 5, 10),
+                        ),
                         Container(
-                      height: 70,
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.black12,
-                      ),
-                    ),
+                          height: 70,
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.black12,
+                          ),
+                        ),
                       ],
-
                     );
                   },
                   itemCount: 10),

@@ -13,9 +13,21 @@ class _OverviewTopState extends State<OverviewTop> {
   Widget build(BuildContext context) {
     return Container(
       height: 200,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(25),
+          bottomRight: Radius.circular(25),
+        ),
+        border: Border.fromBorderSide(
+          BorderSide(
+            color: Colors.grey[300],
+            width: 0.5
+          ),
+        ),
+      ),
       padding: EdgeInsets.fromLTRB(
           15, 15 + MediaQuery.of(context).padding.top, 15, 15),
-      color: Theme.of(context).primaryColor,
       child: Row(
         children: [
           SizedBox(
@@ -31,10 +43,9 @@ class _OverviewTopState extends State<OverviewTop> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                      "สรุปงานในสัปดาห์นี้",
+                    "สรุปงานในสัปดาห์นี้",
                     maxLines: 1,
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
@@ -44,7 +55,6 @@ class _OverviewTopState extends State<OverviewTop> {
                     "วันนี้ 3 งาน",
                     maxLines: 1,
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
                       fontSize: 15,
                     ),
                   ),
@@ -52,7 +62,6 @@ class _OverviewTopState extends State<OverviewTop> {
                     "สัปดาห์นี้ 6 งาน",
                     maxLines: 1,
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
                       fontSize: 15,
                     ),
                   ),
@@ -60,7 +69,6 @@ class _OverviewTopState extends State<OverviewTop> {
                     "ทำเสร็จแล้ว 3 งาน",
                     maxLines: 1,
                     style: TextStyle(
-                      color: Theme.of(context).accentColor,
                       fontSize: 15,
                     ),
                   ),

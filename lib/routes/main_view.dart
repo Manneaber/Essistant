@@ -36,34 +36,44 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: (id) {
-          changeView(id);
-        },
-        items: [
-          BottomNavigationBarItem(
-            title: Text("ภาพรวม"),
-            icon: Icon(Icons.book),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey[300],
+              width: 0.5
+            ),
           ),
-          BottomNavigationBarItem(
-            title: Text("ค้นหา"),
-            icon: Icon(Icons.search),
-          ),
-          BottomNavigationBarItem(
-            title: Text("วิชา"),
-            icon: Icon(Icons.business_center),
-          ),
-          BottomNavigationBarItem(
-            title: Text("ตั้งค่า"),
-            icon: Icon(Icons.settings),
-          ),
-        ],
-        elevation: 0,
-        backgroundColor: Theme.of(context).bottomAppBarColor,
-        selectedItemColor: Theme.of(context).accentColor,
-        unselectedItemColor: Theme.of(context).unselectedWidgetColor,
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _currentIndex,
+          onTap: (id) {
+            changeView(id);
+          },
+          items: [
+            BottomNavigationBarItem(
+              title: Text("ภาพรวม"),
+              icon: Icon(Icons.book),
+            ),
+            BottomNavigationBarItem(
+              title: Text("ค้นหา"),
+              icon: Icon(Icons.search),
+            ),
+            BottomNavigationBarItem(
+              title: Text("วิชา"),
+              icon: Icon(Icons.business_center),
+            ),
+            BottomNavigationBarItem(
+              title: Text("ตั้งค่า"),
+              icon: Icon(Icons.settings),
+            ),
+          ],
+          elevation: 0,
+          backgroundColor: Theme.of(context).bottomAppBarColor,
+          selectedItemColor: Theme.of(context).accentColor,
+          unselectedItemColor: Theme.of(context).unselectedWidgetColor,
+        ),
       ),
       body: _currentView,
     );

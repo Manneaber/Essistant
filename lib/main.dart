@@ -19,9 +19,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          accentColor: Colors.white,
-          unselectedWidgetColor: Colors.white60,
-          bottomAppBarColor: Colors.blue,
+          primaryColor: Colors.white,
+          accentColor: Colors.blue,
+          unselectedWidgetColor: Colors.black45,
+          bottomAppBarColor: Colors.white,
+          primaryTextTheme: TextTheme(),
           fontFamily: 'Kanit'),
       home: MainView(),
       routes: {

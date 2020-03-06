@@ -97,12 +97,12 @@ class _OverviewRouteState extends State<OverviewRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: OverviewTop(),
       floatingActionButton: AnimatedFloatingButton(),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[100],
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
+          OverviewTop(),
           widget.maker.create(title: "งานในวันนี้", assignments: _fakeData1),
           widget.maker
               .create(title: "งานในวันพรุ่งนี้", assignments: _fakeData2),

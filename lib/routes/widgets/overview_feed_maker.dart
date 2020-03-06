@@ -42,9 +42,14 @@ class FeedMaker {
     return Container(
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: Colors.white,
         borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.grey[300]),
+        border: Border.fromBorderSide(
+          BorderSide(
+            color: Colors.grey[300],
+            width: 0.5
+          ),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.max,

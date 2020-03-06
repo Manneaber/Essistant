@@ -37,14 +37,18 @@ class _SettingRouteState extends State<SettingRoute> {
         centerTitle: true,
         elevation: 0,
       ),
+      backgroundColor: Colors.grey[100],
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
           SizedBox(height: 15),
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.white,
               borderRadius: BorderRadius.circular(25),
-              border: Border.all(color: Colors.grey[300]),
+              border: Border.fromBorderSide(
+                BorderSide(color: Colors.grey[300], width: 0.5),
+              ),
             ),
             child: Column(
               children: <Widget>[
@@ -60,8 +64,8 @@ class _SettingRouteState extends State<SettingRoute> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(width: 15),
-                        CircleAvatar(
-                          radius: 20,
+                        SizedBox(
+                          width: 40,
                           child: Icon(Icons.backup, size: 27),
                         ),
                         SizedBox(width: 15),
@@ -123,8 +127,8 @@ class _SettingRouteState extends State<SettingRoute> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(width: 15),
-                        CircleAvatar(
-                          radius: 20,
+                        SizedBox(
+                          width: 40,
                           child: Icon(Icons.replay, size: 27),
                         ),
                         SizedBox(width: 15),
@@ -182,9 +186,11 @@ class _SettingRouteState extends State<SettingRoute> {
             child: Container(
               height: 75,
               decoration: BoxDecoration(
-                color: Colors.grey[100],
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: Colors.grey[300]),
+                border: Border.fromBorderSide(
+                  BorderSide(color: Colors.grey[300], width: 0.5),
+                ),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -192,8 +198,8 @@ class _SettingRouteState extends State<SettingRoute> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(width: 15),
-                  CircleAvatar(
-                    radius: 20,
+                  SizedBox(
+                    width: 40,
                     child: Icon(Icons.delete, size: 27),
                   ),
                   SizedBox(width: 15),
@@ -224,9 +230,11 @@ class _SettingRouteState extends State<SettingRoute> {
           Container(
             height: 75,
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.white,
               borderRadius: BorderRadius.circular(25),
-              border: Border.all(color: Colors.grey[300]),
+              border: Border.fromBorderSide(
+                BorderSide(color: Colors.grey[300], width: 0.5),
+              ),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -234,8 +242,8 @@ class _SettingRouteState extends State<SettingRoute> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(width: 15),
-                CircleAvatar(
-                  radius: 20,
+                SizedBox(
+                  width: 40,
                   child: Icon(Icons.info, size: 27),
                 ),
                 SizedBox(width: 15),
