@@ -13,7 +13,7 @@ class FeedMaker {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildTitle(title),
-        _buildBody(assignments),
+        _buildMagicBox(assignments),
       ],
     );
   }
@@ -30,11 +30,11 @@ class FeedMaker {
     );
   }
 
-  Widget _buildBody(List<AssignmentData> assignments) {
+  Widget _buildMagicBox(List<AssignmentData> assignments) {
     List<Widget> lists = [];
 
     for (var assignment in assignments) {
-      lists.add(_FeedTemplate(assignment));
+      lists.add(_buildBody(assignment));
       lists.add(_buildSeperator());
     }
     lists.removeLast();
@@ -45,10 +45,7 @@ class FeedMaker {
         color: Colors.white,
         borderRadius: BorderRadius.circular(25),
         border: Border.fromBorderSide(
-          BorderSide(
-            color: Colors.grey[300],
-            width: 0.5
-          ),
+          BorderSide(color: Colors.grey[300], width: 0.5),
         ),
       ),
       child: Column(
@@ -75,15 +72,8 @@ class FeedMaker {
       ],
     );
   }
-}
 
-class _FeedTemplate extends StatelessWidget {
-  final AssignmentData assignment;
-
-  _FeedTemplate(this.assignment);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildBody(AssignmentData assignment) {
     return InkWell(
       onTap: () {},
       child: SizedBox(
