@@ -1,4 +1,4 @@
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 import 'data/AssignmentData.dart';
@@ -6,9 +6,18 @@ import 'data/AssignmentData.dart';
 class AssignmentRepository {
   Database _db;
 
-  Future<Database> init() async {
+  Future init({bool clean = false, String path}) async {
+    String dbPath;
+    if (path == null) {
+      dbPath = p.join(await getDatabasesPath(), 'assignment_database.db');
+    } else {
+      dbPath = path;
+    }
+
+    if (clean) await deleteDatabase(dbPath);
+
     _db = await openDatabase(
-      join(await getDatabasesPath(), 'assignment_database.db'),
+      dbPath,
       onCreate: (db, version) async {
         String s = 'CREATE TABLE subject(';
         s += 'id INTEGER PRIMARY KEY AUTOINCREMENT, ';
@@ -40,18 +49,6 @@ class AssignmentRepository {
       },
       version: 1,
     );
-
-    return _db;
-  }
-
-  void cleanDatabase() {
-    _db.transaction((txn) async {
-      var batch = txn.batch();
-      batch.delete('assignment_attachment');
-      batch.delete('assignment');
-      batch.delete('subject');
-      batch.commit();
-    });
   }
 
   Future<bool> insert(AssignmentData data) async {

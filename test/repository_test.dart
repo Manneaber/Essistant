@@ -5,18 +5,15 @@ import 'package:essistant/repository/data/AssignmentData.dart';
 import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main() {
   group('Assignment Repository', () {
     AssignmentRepository repo;
 
-    setUpAll(() async {
+    testWidgets('Init', (WidgetTester tester) async {
       repo = AssignmentRepository();
-      await repo.init();
-    });
-
-    tearDownAll(() async {
-      repo.cleanDatabase();
+      await repo.init(clean: true, path: '');
     });
 
     testWidgets('Insert assignment record into table',

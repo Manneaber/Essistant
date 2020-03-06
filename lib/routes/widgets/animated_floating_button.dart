@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:essistant/main.dart';
 
 class AnimatedFloatingButton extends StatefulWidget {
   final void Function() onPressed;
@@ -45,7 +46,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
     });
 
     // Callback
-    widget.onPressed();
+    if (widget.onPressed != null) widget.onPressed();
   }
 
   Widget _toggle() {
@@ -61,6 +62,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
           onPressed: () {
             toggleState();
           },
+          heroTag: "toggle",
           backgroundColor: _buttonColor,
           child: Icon(_icon, color: widget.iconColor),
         ),
@@ -76,7 +78,10 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
             style: TextStyle(fontSize: 16, color: Colors.white)),
         SizedBox(width: 20),
         FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            navigationKey.currentState.pushNamed('/addtask');
+          },
+          heroTag: "task",
           backgroundColor: widget.backgroundColor,
           child: Icon(Icons.book, color: widget.iconColor),
         ),
@@ -93,6 +98,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
         SizedBox(width: 20),
         FloatingActionButton(
           onPressed: () {},
+          heroTag: "sound",
           backgroundColor: widget.backgroundColor,
           child: Icon(Icons.keyboard_voice, color: widget.iconColor),
         ),
@@ -109,6 +115,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
         SizedBox(width: 20),
         FloatingActionButton(
           onPressed: () {},
+          heroTag: "img",
           backgroundColor: widget.backgroundColor,
           child: Icon(Icons.image, color: widget.iconColor),
         ),

@@ -104,7 +104,8 @@ class _OverviewRouteState extends State<OverviewRoute> {
         physics: BouncingScrollPhysics(),
         children: [
           widget.maker.create(title: "งานในวันนี้", assignments: _fakeData1),
-          widget.maker.create(title: "งานในวันพรุ่งนี้", assignments: _fakeData2),
+          widget.maker
+              .create(title: "งานในวันพรุ่งนี้", assignments: _fakeData2),
           widget.maker.create(title: "งานในวันมะรืน", assignments: _fakeData3),
           SizedBox(height: 25),
         ],

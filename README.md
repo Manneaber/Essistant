@@ -1,6 +1,6 @@
 # essistant
 
-A new Flutter project.
+Term Project
 
 ## Getting Started
 

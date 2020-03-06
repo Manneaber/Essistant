@@ -19,8 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite:
-  path:
+  sqflite: 1.2.1
+  path: 1.6.4
   charts_flutter: 0.8.1
   googleapis: any
   googleapis_auth: any
