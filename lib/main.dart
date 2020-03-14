@@ -1,4 +1,6 @@
+import 'package:camera/camera.dart';
 import 'package:essistant/repository/AssignmentRepository.dart';
+import 'package:essistant/routes/TakePictureScreen.dart';
 import 'package:essistant/routes/addsubject_route.dart';
 import 'package:essistant/routes/addtask_route.dart';
 import 'package:essistant/routes/main_view.dart';
@@ -10,10 +12,19 @@ import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 final navigationKey = GlobalKey<NavigatorState>();
 final db = AssignmentRepository();
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 
   db.init();
+  // Ensure that plugin services are initialized so that `availableCameras()`
+  // can be called before `runApp()`
+
+  // Obtain a list of the available cameras on the device.
+  final cameras = await availableCameras();
+
+  // Get a specific camera from the list of available cameras.
+  final firstCamera = cameras.first;
 }
 
 class MyApp extends StatelessWidget {

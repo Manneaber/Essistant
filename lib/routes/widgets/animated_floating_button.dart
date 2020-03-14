@@ -1,6 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
-import 'package:essistant/main.dart';
+import 'package:camera/camera.dart';
+import 'package:essistant/routes/TakePictureScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../main.dart';
 
 class AnimatedFloatingButton extends StatefulWidget {
   final void Function() onPressed;
@@ -114,10 +119,52 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
             style: TextStyle(fontSize: 16, color: Colors.white)),
         SizedBox(width: 20),
         FloatingActionButton(
-          onPressed: () {},
+          onPressed: () async {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          GestureDetector(
+                            child: Text("Gallery"),
+                            onTap: () async {
+                              var img = await ImagePicker.pickImage(
+                                  source: ImageSource.gallery);
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      DisplayPictureScreen(imagePath: img.path),
+                                ),
+                              );
+                            },
+                          ),
+                          GestureDetector(
+                            child: Text("Camera"),
+                            onTap: () async {
+                              final cameras = await availableCameras();
+
+                              // Get a specific camera from the list of available cameras.
+                              final firstCamera = cameras.first;
+                              navigationKey.currentState.push(
+                                MaterialPageRoute(
+                                    builder: (c) =>
+                                        TakePictureScreen(camera: firstCamera)),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          },
           heroTag: "img",
           backgroundColor: widget.backgroundColor,
-          child: Icon(Icons.image, color: widget.iconColor),
+          child: Icon(Icons.camera_alt, color: widget.iconColor),
         ),
       ],
     );
