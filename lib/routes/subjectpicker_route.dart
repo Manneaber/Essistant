@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:essistant/main.dart';
 
 class SubjectPickerRoute extends StatefulWidget {
   @override
@@ -62,7 +62,9 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      navigationKey.currentState.pushNamed("/addsubject");
+                    },
                     child: SizedBox(
                       height: 75,
                       child: Row(
@@ -98,7 +100,9 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          navigationKey.currentState.pop(1);
+        },
         child: SizedBox(
           height: 75,
           child: Row(

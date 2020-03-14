@@ -1,12 +1,21 @@
 import 'package:essistant/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:flutter_rounded_date_picker/src/material_rounded_date_picker_style.dart';
+import 'package:flutter_rounded_date_picker/src/material_rounded_year_picker_style.dart';
+import 'package:intl/intl.dart';
 
-class AddTaskRoute extends StatelessWidget {
+class AddTaskRoute extends StatefulWidget {
+  @override
+  _AddTaskRouteState createState() => _AddTaskRouteState();
+}
+
+class _AddTaskRouteState extends State<AddTaskRoute> {
   final _form = GlobalKey<FormState>();
   final _key1 = TextEditingController();
 
-  // Color
   final Color _inputBg = Colors.grey[200];
+  String dueDate = 'ระบุวันที่กำหนดส่ง';
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +63,14 @@ class AddTaskRoute extends StatelessWidget {
                   InkWell(
                     onTap: () {},
                     child: SizedBox(
-                      height: 75,
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(width: 15),
-                          SizedBox(
+                          Container(
                             width: 40,
                             height: 40,
+                            margin: EdgeInsets.only(top: 15),
                             child: CircleAvatar(
                               backgroundColor: Colors.blue,
                             ),
@@ -90,6 +100,13 @@ class AddTaskRoute extends StatelessWidget {
                                   ),
                                   borderSide: BorderSide.none,
                                 ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(10.0),
+                                  ),
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1),
+                                ),
                               ),
                             ),
                           ),
@@ -97,6 +114,9 @@ class AddTaskRoute extends StatelessWidget {
                         ],
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   InkWell(
                     onTap: () {},
@@ -111,20 +131,29 @@ class AddTaskRoute extends StatelessWidget {
                           ),
                           SizedBox(width: 15),
                           Expanded(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                hintText: 'รายละเอียด',
-                                fillColor: _inputBg,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(10.0),
+                            child: WillPopScope(
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: 'รายละเอียด',
+                                    fillColor: _inputBg,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                        const Radius.circular(10.0),
+                                      ),
+                                      borderSide: BorderSide.none,
+                                    ),
                                   ),
-                                  borderSide: BorderSide.none,
+                                  maxLines: 3,
                                 ),
-                              ),
-                              maxLines: 3,
-                            ),
+                                onWillPop: () async {
+                                  if (FocusScope.of(context).hasFocus) {
+                                    FocusScope.of(context).unfocus();
+                                    return false;
+                                  } else {
+                                    return true;
+                                  }
+                                }),
                           ),
                           SizedBox(width: 18),
                         ],
@@ -149,8 +178,10 @@ class AddTaskRoute extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {
-                      navigationKey.currentState.pushNamed('/picksubject');
+                    onTap: () async {
+                      var result = await navigationKey.currentState
+                          .pushNamed('/picksubject');
+                      print("Picked : " + result.toString());
                     },
                     child: SizedBox(
                       height: 75,
@@ -212,7 +243,118 @@ class AddTaskRoute extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      DateTime newDateTime = await showRoundedDatePicker(
+                        context: context,
+                        theme: ThemeData(primarySwatch: Colors.blue),
+                        fontFamily: 'Kanit',
+                        locale: Locale("th", "TH"),
+                        era: EraMode.BUDDHIST_YEAR,
+                        styleDatePicker: MaterialRoundedDatePickerStyle(
+                          textStyleDayButton: TextStyle(
+                            fontSize: 36,
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                          ),
+                          textStyleYearButton: TextStyle(
+                            //fontSize: 52,
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                          ),
+                          textStyleDayHeader: TextStyle(
+                            //fontSize: 24,
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                          ),
+                          textStyleCurrentDayOnCalendar: TextStyle(
+                            //fontSize: 32,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Kanit',
+                          ),
+                          textStyleDayOnCalendar: TextStyle(
+                            //fontSize: 28,
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textStyleDayOnCalendarSelected: TextStyle(
+                            //fontSize: 32,
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textStyleDayOnCalendarDisabled: TextStyle(
+                            //fontSize: 28,
+                            color: Colors.white.withOpacity(0.1),
+                            fontFamily: 'Kanit',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textStyleMonthYearHeader: TextStyle(
+                            fontFamily: 'Kanit',
+                            //fontSize: 32,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          paddingDatePicker: EdgeInsets.all(0),
+                          paddingMonthHeader: EdgeInsets.fromLTRB(0, 16, 0, 16),
+                          paddingActionBar: EdgeInsets.all(0),
+                          paddingDateYearHeader:
+                              EdgeInsets.fromLTRB(16, 24, 0, 16),
+                          sizeArrow: 25,
+                          colorArrowNext: Colors.white,
+                          colorArrowPrevious: Colors.white,
+                          textStyleButtonAction: TextStyle(
+                            fontFamily: 'Kanit',
+                            //fontSize: 28,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textStyleButtonPositive: TextStyle(
+                            fontFamily: 'Kanit',
+                            //fontSize: 28,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textStyleButtonNegative: TextStyle(
+                            fontFamily: 'Kanit',
+                            //fontSize: 28,
+                            color: Colors.white.withOpacity(0.5),
+                            fontWeight: FontWeight.w400,
+                          ),
+                          decorationDateSelected: BoxDecoration(
+                            color: Colors.orange[600],
+                            shape: BoxShape.circle,
+                          ),
+                          backgroundPicker: Colors.blue[600],
+                          backgroundActionBar: Colors.blue[500],
+                          backgroundHeaderMonth: Colors.blue[400],
+                        ),
+                        styleYearPicker: MaterialRoundedYearPickerStyle(
+                          textStyleYear: TextStyle(
+                            //fontSize: 40,
+                            fontFamily: 'Kanit',
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textStyleYearSelected: TextStyle(
+                            //fontSize: 56,
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          heightYearRow: 100,
+                          backgroundPicker: Colors.blue[400],
+                        ),
+                      );
+
+                      if (newDateTime != null) {
+                        setState(() {
+                          dueDate = DateFormat("dd MMMM yyyy", 'th_TH')
+                              .format(newDateTime);
+                        });
+                      }
+                    },
                     child: SizedBox(
                       height: 75,
                       child: Row(
@@ -240,7 +382,7 @@ class AddTaskRoute extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    'ระบุวันที่กำหนดส่ง',
+                                    dueDate,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.black54,

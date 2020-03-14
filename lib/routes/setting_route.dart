@@ -1,4 +1,3 @@
-import 'package:essistant/repository/GoogleDriveRepository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,6 @@ class SettingRoute extends StatefulWidget {
 }
 
 class _SettingRouteState extends State<SettingRoute> {
-  final drive = GoogleDriveRepository();
 
   IconData _gdriveCheck = Icons.check_box_outline_blank;
 
@@ -17,16 +15,6 @@ class _SettingRouteState extends State<SettingRoute> {
   }
 
   Future<void> updateStatus() async {
-    var check = await drive.isAuthorized();
-    if (check) {
-      _gdriveCheck = Icons.check_box;
-    } else {
-      _gdriveCheck = Icons.check_box_outline_blank;
-    }
-
-    setState(() {});
-
-    print(check);
   }
 
   @override
@@ -58,7 +46,7 @@ class _SettingRouteState extends State<SettingRoute> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        drive.login();
+                        
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.max,

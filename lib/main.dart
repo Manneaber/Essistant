@@ -1,8 +1,11 @@
 import 'package:essistant/repository/AssignmentRepository.dart';
+import 'package:essistant/routes/addsubject_route.dart';
 import 'package:essistant/routes/addtask_route.dart';
 import 'package:essistant/routes/main_view.dart';
 import 'package:essistant/routes/subjectpicker_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 
 final navigationKey = GlobalKey<NavigatorState>();
 final db = AssignmentRepository();
@@ -30,8 +33,17 @@ class MyApp extends StatelessWidget {
       routes: {
         '/main': (context) => MainView(),
         '/addtask': (context) => AddTaskRoute(),
+        '/addsubject': (context) => AddSubjectRoute(),
         '/picksubject': (context) => SubjectPickerRoute(),
       },
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('th', 'TH'), // Thai
+      ],
       navigatorKey: navigationKey,
     );
   }
