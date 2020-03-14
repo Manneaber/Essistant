@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:essistant/main.dart';
 import 'package:essistant/repository/AssignmentRepository.dart';
+import 'package:essistant/repository/data/AssignmentAttachmentData.dart';
+import 'package:essistant/repository/data/AssignmentAttachmentType.dart';
 import 'package:essistant/repository/data/AssignmentData.dart';
 import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +12,8 @@ import 'package:flutter_rounded_date_picker/src/material_rounded_date_picker_sty
 import 'package:flutter_rounded_date_picker/src/material_rounded_year_picker_style.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class AddTaskRoute extends StatefulWidget {
   @override
@@ -22,6 +28,8 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
   final Color _inputBg = Colors.grey[200];
   SubjectData _selectedSubject;
   int _dueDate;
+  List<AssignmentAttachmentData> _attachments = [];
+  List<Widget> _addedAttachment = [];
   String _dueDateText = 'ระบุวันที่กำหนดส่ง';
   String _selectedSubjectText = 'วิชา';
 
@@ -43,48 +51,140 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
             onTap: () async {
               var image =
                   await ImagePicker.pickImage(source: ImageSource.gallery);
-              print(image);
-            },
-            child: SizedBox(
-              height: 75,
-              child: Row(
-                children: <Widget>[
-                  SizedBox(width: 15),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: Center(
-                      child: Icon(Icons.attachment),
-                    ),
+              if (image != null) {
+                var localPath = await getApplicationDocumentsDirectory();
+                var _appDocDirFolder = Directory(localPath.path + '/img');
+                if (!(await _appDocDirFolder.exists())) {
+                  await _appDocDirFolder.create(recursive: true);
+                }
+                var newImage = image.copySync(
+                    localPath.path + '/img/' + path.basename(image.path));
+
+                _attachments.add(
+                  AssignmentAttachmentData(
+                    url: newImage.path,
+                    type: AssignmentAttachmentType.IMAGE,
                   ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: _inputBg,
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      padding: EdgeInsets.all(13),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'เพิ่มไฟล์แนบ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black54,
-                            ),
+                );
+
+                setState(
+                  () {
+                    final curIndex = _addedAttachment.length;
+                    _addedAttachment.add(
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("ต้องการจะลบจริงหรือไม่"),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () {
+                                      navigationKey.currentState.pop();
+                                    },
+                                    child: Text("ไม่"),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () {
+                                      newImage.deleteSync();
+                                      setState(() {
+                                        _attachments.removeWhere((elem) {
+                                          return elem.url == newImage.path;
+                                        });
+                                        _addedAttachment.removeAt(curIndex);
+                                      });
+
+                                      navigationKey.currentState.pop();
+                                    },
+                                    child: Text("ลบ"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Row(
+                            children: <Widget>[
+                              SizedBox(width: 70),
+                              Expanded(
+                                child: Container(
+                                  height: 150,
+                                  decoration: BoxDecoration(
+                                    color: _inputBg,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.all(13),
+                                  child: Image.file(newImage),
+                                ),
+                              ),
+                              SizedBox(width: 18),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    );
+                  },
+                );
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.only(top: 5, bottom: 5),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SizedBox(width: 15),
+                      SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: Center(
+                          child: Icon(Icons.attachment),
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: _inputBg,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                          padding: EdgeInsets.all(13),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'เพิ่มไฟล์แนบ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 18),
+                    ],
                   ),
-                  SizedBox(width: 18),
                 ],
               ),
             ),
+          ),
+          Column(
+            children:
+                _addedAttachment.length == 0 ? [Container()] : _addedAttachment,
           ),
         ],
       ),
@@ -286,7 +386,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                 _dueDate = newDateTime.millisecondsSinceEpoch;
                 setState(() {
                   _dueDateText =
-                      DateFormat("dd MMMM yyyy HH:mm", 'th_TH').format(newDateTime);
+                      DateFormat("dd MMMM yyyy", 'th_TH').format(newDateTime);
                 });
               }
             },
@@ -460,14 +560,13 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
     }
 
     var assignment = AssignmentData(
-      title: _titleController.text,
-      desc: _descController.text,
-      color: Colors.blue,
-      subject: _selectedSubject,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      dueDate: _dueDate,
-      attachments: []
-    );
+        title: _titleController.text,
+        desc: _descController.text,
+        color: Colors.blue,
+        subject: _selectedSubject,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        dueDate: _dueDate,
+        attachments: _attachments);
 
     AssignmentRepository.insertAssignment(assignment);
     navigationKey.currentState.pop();
@@ -484,7 +583,39 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
-            navigationKey.currentState.pop();
+            if (_attachments.length > 0) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("ต้องการจะลบจริงหรือไม่"),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            navigationKey.currentState.pop();
+                          },
+                          child: Text("กลับ"),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            for (var attachment in _attachments) {
+                              File(attachment.url).deleteSync();
+                            }
+
+                            navigationKey.currentState.pop();
+                            navigationKey.currentState.pop();
+                          },
+                          child: Text("ลบ"),
+                        ),
+                      ],
+                    );
+                  });
+            } else {
+              navigationKey.currentState.pop();
+            }
           },
         ),
         actions: <Widget>[
@@ -505,7 +636,8 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
             SizedBox(height: 15),
             _date(),
             SizedBox(height: 15),
-            _attachment()
+            _attachment(),
+            SizedBox(height: 15),
           ],
         ),
       ),

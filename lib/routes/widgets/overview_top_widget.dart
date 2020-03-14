@@ -1,4 +1,3 @@
-import 'package:essistant/routes/widgets/overview_chart.dart';
 import 'package:flutter/material.dart';
 
 class OverviewTop extends StatefulWidget implements PreferredSizeWidget {
@@ -6,13 +5,13 @@ class OverviewTop extends StatefulWidget implements PreferredSizeWidget {
   State<StatefulWidget> createState() => _OverviewTopState();
 
   @override
-  Size get preferredSize => Size(double.maxFinite, 200);
+  Size get preferredSize => Size(double.maxFinite, 60);
 }
 
 class _OverviewTopState extends State<OverviewTop> {
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 60,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.only(
@@ -20,64 +19,16 @@ class _OverviewTopState extends State<OverviewTop> {
           bottomRight: Radius.circular(25),
         ),
         border: Border.fromBorderSide(
-          BorderSide(
-            color: Colors.grey[300],
-            width: 0.5
-          ),
+          BorderSide(color: Colors.grey[300], width: 0.5),
         ),
       ),
       padding: EdgeInsets.fromLTRB(
           15, 15 + MediaQuery.of(context).padding.top, 15, 15),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 160,
-            height: 160,
-            child: OverviewChart.withSampleData(),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 15),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "สรุปงานในสัปดาห์นี้",
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Text(
-                    "วันนี้ 3 งาน",
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                  Text(
-                    "สัปดาห์นี้ 6 งาน",
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                  Text(
-                    "ทำเสร็จแล้ว 3 งาน",
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                ],
-              ),
-            ),
-          )
-        ],
+      child: Text(
+        'Title',
+        style: TextStyle(
+          fontSize: 18
+        ),
       ),
     );
   }

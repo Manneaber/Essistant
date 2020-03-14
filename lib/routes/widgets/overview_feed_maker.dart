@@ -112,10 +112,7 @@ class FeedMaker {
                       ),
                     ),
                     Text(
-                      "กำหนดส่ง " +
-                          DateFormat("dd MMMM yyyy HH:mm", 'th_TH').format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                  assignment.dueDate)),
+                      assignment.subject.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:

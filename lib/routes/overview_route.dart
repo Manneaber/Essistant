@@ -105,17 +105,17 @@ class _OverviewRouteState extends State<OverviewRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('ภาพรวมการบ้าน'),
+        elevation: 0.5,
+      ),
       floatingActionButton: AnimatedFloatingButton(),
       backgroundColor: Colors.grey[100],
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
-          OverviewTop(),
           _getTask(),
-          /*widget.maker.create(title: "งานในวันนี้", assignments: _fakeData1),
-          widget.maker
-              .create(title: "งานในวันพรุ่งนี้", assignments: _fakeData2),
-          widget.maker.create(title: "งานในวันมะรืน", assignments: _fakeData3),*/
           SizedBox(height: 25),
         ],
       ),

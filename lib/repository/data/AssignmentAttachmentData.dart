@@ -3,16 +3,16 @@ import 'AssignmentAttachmentType.dart';
 class AssignmentAttachmentData {
   final String id;
   final int assid;
-  final String title;
+  final String url;
   final AssignmentAttachmentType type;
 
-  AssignmentAttachmentData({this.id, this.assid, this.title, this.type});
+  AssignmentAttachmentData({this.id, this.assid, this.url, this.type});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'assid': assid,
-      'title': title,
+      'url': url,
       'type': type.index,
     };
   }

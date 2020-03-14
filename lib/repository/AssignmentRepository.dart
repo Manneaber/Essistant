@@ -45,7 +45,7 @@ class AssignmentRepository {
         s = 'CREATE TABLE assignment_attachment(';
         s += 'id TEXT PRIMARY KEY, ';
         s += 'assid INTEGER, ';
-        s += 'title TEXT, ';
+        s += 'url TEXT, ';
         s += 'type INTEGER, ';
         s += 'FOREIGN KEY(assid) REFERENCES assignment(id)';
         s += ')';
