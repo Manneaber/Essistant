@@ -2,6 +2,7 @@ import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/routes/addsubject_route.dart';
 import 'package:essistant/routes/addtask_route.dart';
 import 'package:essistant/routes/main_view.dart';
+import 'package:essistant/routes/subdetail_route.dart';
 import 'package:essistant/routes/subjectpicker_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/addtask': (context) => AddTaskRoute(),
         '/addsubject': (context) => AddSubjectRoute(),
         '/picksubject': (context) => SubjectPickerRoute(),
+        '/subjectdetail' : (context) => SubDatailRoute()
       },
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
