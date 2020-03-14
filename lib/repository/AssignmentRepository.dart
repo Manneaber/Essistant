@@ -37,6 +37,7 @@ class AssignmentRepository {
         s += 'subject INTEGER, ';
         s += 'timestamp INTEGER, ';
         s += 'duedate INTEGER, ';
+        s += 'status INTEGER, ';
         s += 'FOREIGN KEY(subject) REFERENCES subject(id)';
         s += ')';
         await db.execute(s);
@@ -110,6 +111,7 @@ class AssignmentRepository {
         subject: maps[0]['subject'],
         timestamp: maps[0]['timestamp'],
         dueDate: maps[0]['duedate'],
+        status: maps[0]['status'],
         attachments: maps[0]['attachments']);
   }
 
@@ -131,6 +133,7 @@ class AssignmentRepository {
           subject: await findSubjectByID(elem['subject']),
           timestamp: elem['timestamp'],
           dueDate: elem['duedate'],
+          status: elem['status'],
           attachments: [],
         ),
       );
@@ -159,6 +162,7 @@ class AssignmentRepository {
           subject: await findSubjectByID(elem['subject']),
           timestamp: elem['timestamp'],
           dueDate: elem['duedate'],
+          status: elem['status'],
           attachments: [],
         ),
       );

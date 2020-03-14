@@ -11,6 +11,7 @@ class AssignmentData {
   final SubjectData subject;
   final int timestamp;
   final int dueDate;
+  final int status;
   final List<AssignmentAttachmentData> attachments;
 
   AssignmentData(
@@ -21,6 +22,7 @@ class AssignmentData {
       this.subject,
       this.timestamp,
       this.dueDate,
+      this.status,
       this.attachments});
 
   Map<String, dynamic> toMap() {
@@ -31,6 +33,7 @@ class AssignmentData {
       'subject': subject.id,
       'timestamp': timestamp,
       'duedate': dueDate,
+      'status': status,
       'attachments': attachments,
     };
   }
