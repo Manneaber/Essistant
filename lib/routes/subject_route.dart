@@ -1,3 +1,4 @@
+import 'package:charts_flutter/flutter.dart';
 import 'package:essistant/main.dart';
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/SubjectData.dart';
@@ -12,8 +13,7 @@ class SubjectRoute extends StatefulWidget {
 }
 
 class _SubjectRouteState extends State<SubjectRoute> {
-
- Widget _buildCard(List<SubjectData> data) {
+  Widget _buildCard(List<SubjectData> data) {
     List<Widget> children = [];
 
     for (int i = 0; i < data.length; i++) {
@@ -33,20 +33,40 @@ class _SubjectRouteState extends State<SubjectRoute> {
               style: TextStyle(fontSize: 22, color: Colors.black),
             ),
           ),
-          Container(
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25),
-              border: Border.fromBorderSide(
-                BorderSide(color: Colors.grey[300], width: 0.5),
-              ),
+          Dismissible(
+            background: Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(right: 20.0),
+              color: Colors.red,
+              child: Icon(Icons.delete, color: Colors.white),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: children,
+            // Each Dismissible must contain a Key. Keys allow Flutter to
+            // uniquely identify widgets.
+            key: Key(data[0].year),
+            // Provide a function that tells the app
+            // what to do after an item has been swiped away.
+            onDismissed: (direction) {
+              // Remove the item from the data source.
+              setState(() {});
+              // Show a snackbar. This snackbar could also contain "Undo" actions.
+              Scaffold.of(context)
+                  .showSnackBar(SnackBar(content: Text(" dismissed")));
+            },
+            child: Container(
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+                border: Border.fromBorderSide(
+                  BorderSide(color: Colors.grey[300], width: 0.5),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: children,
+              ),
             ),
           ),
         ],
@@ -60,10 +80,11 @@ class _SubjectRouteState extends State<SubjectRoute> {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.add)
-          , onPressed: (){
-            navigationKey.currentState.pushNamed('/addsubject');
-          })
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                navigationKey.currentState.pushNamed('/addsubject');
+              }),
         ],
         title: Text("วิชา"),
         centerTitle: true,
@@ -123,7 +144,8 @@ class _SubjectRouteState extends State<SubjectRoute> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          navigationKey.currentState.pushNamed('/subjectdetail', arguments: subjectData);
+          navigationKey.currentState
+              .pushNamed('/subjectdetail', arguments: subjectData);
         },
         child: SizedBox(
           height: 75,
@@ -177,5 +199,3 @@ class _SubjectRouteState extends State<SubjectRoute> {
     );
   }
 }
-
-

@@ -80,7 +80,6 @@ class _SubDatailRouteState extends State<SubDatailRoute> {
                     Container(
                       child: Column(
                         
-
                       ),
                     ),
                     ],
@@ -106,7 +105,19 @@ class _SubDatailRouteState extends State<SubDatailRoute> {
 }
 
 Widget _buildBody(AssignmentData subjectData) {
-  return Material(
+ return Dismissible(
+   background: Container(color: Colors.red),
+            // Each Dismissible must contain a Key. Keys allow Flutter to
+            // uniquely identify widgets.
+            key: Key(subjectData.id.toString()),
+            // Provide a function that tells the app
+            // what to do after an item has been swiped away.
+            onDismissed: (direction) {
+              // Remove the item from the data source.
+              //setState(() {});
+              // Show a snackbar. This snackbar could also contain "Undo" actions.
+            },
+            child:Material(
     color: Colors.transparent,
     child: InkWell(
       onTap: () {
@@ -155,9 +166,10 @@ Widget _buildBody(AssignmentData subjectData) {
         ),
       ),
     ),
-  );
-}
+  ),
+          );}
 
+ 
 Widget _buildSeperator() {
   return Container(
     height: 1,
