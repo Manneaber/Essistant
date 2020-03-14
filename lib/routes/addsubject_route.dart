@@ -1,10 +1,14 @@
 import 'package:essistant/main.dart';
+import 'package:essistant/repository/AssignmentRepository.dart';
+import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddSubjectRoute extends StatelessWidget {
   final _form = GlobalKey<FormState>();
-  final _key1 = TextEditingController();
+  final _title = TextEditingController();
+  final _desc = TextEditingController();
+  final _year = TextEditingController();
 
   // Color
   final Color _inputBg = Colors.grey[200];
@@ -26,9 +30,21 @@ class AddSubjectRoute extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.check),
-            onPressed: () {
+            onPressed: () async {
               if (_form.currentState.validate()) {
-                print('Passed');
+                FocusScope.of(context).unfocus();
+                var subjData = SubjectData(
+                  title: _title.text,
+                  teacher: _desc.text,
+                  year: _year.text,
+                );
+
+                var res = await AssignmentRepository.insertSubject(subjData);
+                if (res) {
+                  navigationKey.currentState.pop();
+                } else {
+                  
+                }
               }
             },
           ),
@@ -70,12 +86,7 @@ class AddSubjectRoute extends StatelessWidget {
                           SizedBox(width: 15),
                           Expanded(
                             child: TextFormField(
-                              controller: _key1,
-                              onSaved: (value) {
-                                // value
-                                print("Value: " + value);
-                                FocusScope.of(context).unfocus();
-                              },
+                              controller: _title,
                               validator: (val) {
                                 if (val.length <= 0) {
                                   return "โปรดระบุชื่อวิชา";
@@ -96,10 +107,8 @@ class AddSubjectRoute extends StatelessWidget {
                                   borderRadius: const BorderRadius.all(
                                     const Radius.circular(10.0),
                                   ),
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1
-                                  ),
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1),
                                 ),
                               ),
                             ),
@@ -124,6 +133,7 @@ class AddSubjectRoute extends StatelessWidget {
                           SizedBox(width: 15),
                           Expanded(
                             child: TextFormField(
+                              controller: _desc,
                               decoration: InputDecoration(
                                 hintText: 'ชื่อผู้สอน (ไม่จำเป็น)',
                                 fillColor: _inputBg,
@@ -149,7 +159,7 @@ class AddSubjectRoute extends StatelessWidget {
             SizedBox(height: 15),
             Container(
               width: double.maxFinite,
-              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
@@ -161,41 +171,46 @@ class AddSubjectRoute extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () async {},
+                    onTap: () {},
                     child: SizedBox(
-                      height: 75,
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(width: 15),
-                          SizedBox(
+                          Container(
                             width: 40,
                             height: 40,
-                            child: Center(
-                              child: Icon(Icons.calendar_today),
-                            ),
+                            margin: EdgeInsets.only(top: 15),
+                            child: Icon(Icons.calendar_today),
                           ),
                           SizedBox(width: 15),
                           Expanded(
-                            child: Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: _inputBg,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                              ),
-                              padding: EdgeInsets.all(13),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'ปีการศึกษา',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black54,
-                                    ),
+                            child: TextFormField(
+                              controller: _year,
+                              validator: (val) {
+                                if (val.length <= 0) {
+                                  return "โปรดระบุปีการศึกษา";
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: 'ปีการศึกษา',
+                                fillColor: _inputBg,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(10.0),
                                   ),
-                                ],
+                                  borderSide: BorderSide.none,
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(10.0),
+                                  ),
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1),
+                                ),
                               ),
                             ),
                           ),
@@ -206,7 +221,7 @@ class AddSubjectRoute extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),

@@ -1,8 +1,10 @@
 import 'package:essistant/main.dart';
+import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:flutter_rounded_date_picker/src/material_rounded_date_picker_style.dart';
 import 'package:flutter_rounded_date_picker/src/material_rounded_year_picker_style.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class AddTaskRoute extends StatefulWidget {
@@ -15,7 +17,10 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
   final _key1 = TextEditingController();
 
   final Color _inputBg = Colors.grey[200];
-  String dueDate = 'ระบุวันที่กำหนดส่ง';
+  SubjectData _selectedSubject;
+  int _dueDate;
+  String _dueDateText = 'ระบุวันที่กำหนดส่ง';
+  String _selectedSubjectText = 'วิชา';
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +186,13 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                     onTap: () async {
                       var result = await navigationKey.currentState
                           .pushNamed('/picksubject');
-                      print("Picked : " + result.toString());
+
+                      if (result != null) {
+                        _selectedSubject = result;
+                        setState(() {
+                          _selectedSubjectText = _selectedSubject.title;
+                        });
+                      }
                     },
                     child: SizedBox(
                       height: 75,
@@ -210,7 +221,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    'วิชา',
+                                    _selectedSubjectText,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.black54,
@@ -349,8 +360,9 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                       );
 
                       if (newDateTime != null) {
+                        _dueDate = newDateTime.millisecondsSinceEpoch;
                         setState(() {
-                          dueDate = DateFormat("dd MMMM yyyy", 'th_TH')
+                          _dueDateText = DateFormat("dd MMMM yyyy", 'th_TH')
                               .format(newDateTime);
                         });
                       }
@@ -382,7 +394,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    dueDate,
+                                    _dueDateText,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.black54,
@@ -415,7 +427,10 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                      print(image);
+                    },
                     child: SizedBox(
                       height: 75,
                       child: Row(

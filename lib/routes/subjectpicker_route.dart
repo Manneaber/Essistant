@@ -1,3 +1,5 @@
+import 'package:essistant/repository/AssignmentRepository.dart';
+import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:flutter/material.dart';
 import 'package:essistant/main.dart';
 
@@ -18,31 +20,42 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
       body: ListView(
         children: <Widget>[
           SizedBox(height: 15),
-          Container(
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25),
-              border: Border.fromBorderSide(
-                BorderSide(color: Colors.grey[300], width: 0.5),
-              ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildItem(),
-                _buildSeperator(),
-                _buildItem(),
-                _buildSeperator(),
-                _buildItem(),
-                _buildSeperator(),
-                _buildItem(),
-                _buildSeperator(),
-                _buildItem(),
-              ],
-            ),
+          FutureBuilder(
+            future: AssignmentRepository.getAllSubject(),
+            builder: (context, snapshot) {
+              List<Widget> children = [];
+
+              if (snapshot.hasData) {
+                for (SubjectData elem in snapshot.data) {
+                  if (children.length != 0) children.add(_buildSeperator());
+                  children.add(_buildItem(elem));
+                }
+              } else {
+                children = <Widget>[
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 60,
+                    height: 60,
+                  ),
+                ];
+              }
+              return Container(
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.fromBorderSide(
+                    BorderSide(color: Colors.grey[300], width: 0.5),
+                  ),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                ),
+              );
+            },
           ),
           SizedBox(height: 15),
           Container(
@@ -96,12 +109,12 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
     );
   }
 
-  Widget _buildItem() {
+  Widget _buildItem(SubjectData subjectData) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          navigationKey.currentState.pop(1);
+          navigationKey.currentState.pop(subjectData);
         },
         child: SizedBox(
           height: 75,
@@ -123,13 +136,13 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "ชื่อวิชา",
+                      subjectData.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 15),
                     ),
                     Text(
-                      "ชื่อผู้สอน",
+                      subjectData.teacher,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

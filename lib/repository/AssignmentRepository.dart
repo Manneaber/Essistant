@@ -1,12 +1,13 @@
+import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 import 'data/AssignmentData.dart';
 
 class AssignmentRepository {
-  Database _db;
+  static Database _db;
 
-  Future init({bool clean = false, String path}) async {
+  static Future init({bool clean = false, String path}) async {
     String dbPath;
     if (path == null) {
       dbPath = p.join(await getDatabasesPath(), 'assignment_database.db');
@@ -22,7 +23,8 @@ class AssignmentRepository {
         String s = 'CREATE TABLE subject(';
         s += 'id INTEGER PRIMARY KEY AUTOINCREMENT, ';
         s += 'title TEXT, ';
-        s += 'teacher TEXT';
+        s += 'teacher TEXT,';
+        s += 'year TEXT';
         s += ')';
         await db.execute(s);
 
@@ -51,7 +53,7 @@ class AssignmentRepository {
     );
   }
 
-  Future<bool> insert(AssignmentData data) async {
+  static Future<bool> insertAssignment(AssignmentData data) async {
     try {
       _db.transaction((txn) async {
         // check subject exists
@@ -100,7 +102,7 @@ class AssignmentRepository {
     return true;
   }
 
-  Future<AssignmentData> findAssignmentByID(int id) async {
+  static Future<AssignmentData> findAssignmentByID(int id) async {
     final List<Map<String, dynamic>> maps = await _db.query(
       'assignment',
       where: 'id = ?',
@@ -118,9 +120,49 @@ class AssignmentRepository {
         attachments: maps[0]['attachments']);
   }
 
-  updateAssignmentByID(int id, AssignmentData data) {}
+  static void updateAssignmentByID(int id, AssignmentData data) {}
 
-  Future<AssignmentData> removeAssignmentByID(int id) {
+  static Future<AssignmentData> removeAssignmentByID(int id) {
     return null;
+  }
+
+  static Future<List<SubjectData>> getAllSubject() async {
+    final List<Map<String, dynamic>> maps = await _db.query(
+      'subject',
+    );
+
+    List<SubjectData> lists = [];
+    for (var elem in maps) {
+      lists.add(
+        SubjectData(
+          id: elem['id'],
+          title: elem['title'],
+          teacher: elem['teacher'],
+          year: elem['year'],
+        ),
+      );
+    }
+
+    return lists;
+  }
+
+  static Future<bool> insertSubject(SubjectData data) async {
+    try {
+      _db.transaction((txn) async {
+        // insert into assignment
+        var subjData = data.toMap();
+        int subjectID = await txn.insert(
+          'subject',
+          subjData,
+          conflictAlgorithm: ConflictAlgorithm.fail,
+        );
+      });
+    } catch (e) {
+      print(e);
+
+      return false;
+    }
+
+    return true;
   }
 }
