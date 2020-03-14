@@ -30,7 +30,7 @@ class _SubjectRouteState extends State<SubjectRoute> {
             padding: EdgeInsets.only(left: 15),
             child: Text(
               'ปีการศึกษา ' + data[0].year,
-              style: TextStyle(fontSize: 18, color: Colors.black),
+              style: TextStyle(fontSize: 22, color: Colors.black),
             ),
           ),
           Container(
