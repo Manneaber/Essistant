@@ -5,6 +5,7 @@ import 'package:essistant/routes/widgets/animated_floating_button.dart';
 import 'package:essistant/routes/widgets/overview_feed_maker.dart';
 import 'package:essistant/routes/widgets/overview_top_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class OverviewRoute extends StatefulWidget {
   final FeedMaker maker = FeedMaker();
@@ -18,9 +19,6 @@ class _OverviewRouteState extends State<OverviewRoute> {
     return FutureBuilder(
       builder: (context, snap) {
         if (snap.hasData) {
-          /*return widget.maker
-            .create(title: "งานในวันนี้", assignments: snap.data);*/
-
           List<AssignmentData> data = snap.data;
 
           if (data.length == 0) {
@@ -34,7 +32,59 @@ class _OverviewRouteState extends State<OverviewRoute> {
               ),
             );
           } else {
-            return widget.maker.create(title: "งานในวันนี้", assignments: data);
+            Map<int, List<AssignmentData>> assignmentMap = Map();
+
+            final now = DateTime.now();
+            for (var elem in data) {
+              if (elem.dueDate != null) {
+                var date = DateTime.fromMillisecondsSinceEpoch(elem.dueDate);
+                var diff = DateTime(date.year, date.month, date.day)
+                    .difference(DateTime(now.year, now.month, now.day))
+                    .inDays;
+
+                if (assignmentMap.containsKey(diff)) {
+                  assignmentMap[diff].add(elem);
+                } else {
+                  assignmentMap[diff] = [elem];
+                }
+              }
+            }
+
+            var newMap = Map.fromEntries(assignmentMap.entries.toList()
+              ..sort(
+                  (e1, e2) => e1.key.compareTo(e2.key)));
+
+            List<Widget> lists = [];
+            for (int key in newMap.keys) {
+              String keyStr;
+              switch (key) {
+                case 0:
+                  keyStr = "งานในวันนี้";
+                  break;
+                case 1:
+                  keyStr = "งานในวันพรุ่งนี้";
+                  break;
+                case 2:
+                  keyStr = "งานในมะรืน";
+                  break;
+                default:
+                  if (key >= 3) {
+                    keyStr = DateFormat("dd MMMM yyyy", 'th_TH').format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                            assignmentMap[key][0].dueDate));
+                  } else {
+                    keyStr = "งานที่เลยกำหนด";
+                  }
+                  break;
+              }
+
+              lists.add(widget.maker
+                  .create(title: keyStr, assignments: assignmentMap[key]));
+            }
+
+            return Column(
+              children: lists,
+            );
           }
         } else {
           return Container(
