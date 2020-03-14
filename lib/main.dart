@@ -18,7 +18,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AssignmentRepository.init();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

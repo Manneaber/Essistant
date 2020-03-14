@@ -1,4 +1,5 @@
 import 'package:essistant/repository/data/SubjectData.dart';
+import 'package:flutter/painting.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
@@ -54,25 +55,13 @@ class AssignmentRepository {
   }
 
   static Future<bool> insertAssignment(AssignmentData data) async {
+    if (_db == null) await init();
+
     try {
       _db.transaction((txn) async {
-        // check subject exists
-        // if no add new one
-        final List<Map<String, dynamic>> subjectMap = await txn
-            .query('subject', where: 'id = ?', whereArgs: [data.subject.id]);
-
-        int subjectID = data.subject.id;
-        if (subjectMap.length == 0) {
-          subjectID = await txn.insert(
-            'subject',
-            data.subject.toMap(),
-            conflictAlgorithm: ConflictAlgorithm.fail,
-          );
-        }
-
         // insert into assignment
         var assmData = data.toMap();
-        assmData['subject'] = subjectID;
+        assmData['subject'] = data.subject.id;
         assmData.remove('attachments');
         int assignmentID = await txn.insert(
           'assignment',
@@ -81,17 +70,19 @@ class AssignmentRepository {
         );
 
         // loop insert assignment attachments
-        var batch = txn.batch();
-        for (var atm in data.attachments) {
-          var nAtm = atm.toMap();
-          nAtm['assid'] = assignmentID;
-          batch.insert(
-            'assignment_attachment',
-            nAtm,
-            conflictAlgorithm: ConflictAlgorithm.fail,
-          );
+        if (data.attachments.length > 0) {
+          var batch = txn.batch();
+          for (var atm in data.attachments) {
+            var nAtm = atm.toMap();
+            nAtm['assid'] = assignmentID;
+            batch.insert(
+              'assignment_attachment',
+              nAtm,
+              conflictAlgorithm: ConflictAlgorithm.fail,
+            );
+          }
+          await batch.commit();
         }
-        await batch.commit();
       });
     } catch (e) {
       print(e);
@@ -103,6 +94,8 @@ class AssignmentRepository {
   }
 
   static Future<AssignmentData> findAssignmentByID(int id) async {
+    if (_db == null) await init();
+
     final List<Map<String, dynamic>> maps = await _db.query(
       'assignment',
       where: 'id = ?',
@@ -120,13 +113,44 @@ class AssignmentRepository {
         attachments: maps[0]['attachments']);
   }
 
-  static void updateAssignmentByID(int id, AssignmentData data) {}
+  static Future<List<AssignmentData>> getAllAssignments() async {
+    if (_db == null) await init();
 
-  static Future<AssignmentData> removeAssignmentByID(int id) {
+    final List<Map<String, dynamic>> maps = await _db.query(
+      'assignment',
+    );
+
+    List<AssignmentData> lists = [];
+    for (var elem in maps) {
+      lists.add(
+        AssignmentData(
+          id: elem['id'],
+          title: elem['title'],
+          desc: elem['desc'],
+          color: Color(elem['color']),
+          subject: await findSubjectByID(elem['subject']),
+          timestamp: elem['timestamp'],
+          dueDate: elem['duedate'],
+          // attachments: elem['attachments'],
+        ),
+      );
+    }
+
+    return lists;
+  }
+
+  static Future<void> updateAssignmentByID(int id, AssignmentData data) async {
+    if (_db == null) await init();
+  }
+
+  static Future<AssignmentData> removeAssignmentByID(int id) async {
+    if (_db == null) await init();
     return null;
   }
 
   static Future<List<SubjectData>> getAllSubject() async {
+    if (_db == null) await init();
+
     final List<Map<String, dynamic>> maps = await _db.query(
       'subject',
     );
@@ -146,12 +170,35 @@ class AssignmentRepository {
     return lists;
   }
 
+  static Future<SubjectData> findSubjectByID(int id) async {
+    if (_db == null) await init();
+
+    final List<Map<String, dynamic>> maps = await _db.query(
+      'subject',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.length > 0) {
+      return SubjectData(
+        id: maps[0]['id'],
+        title: maps[0]['title'],
+        teacher: maps[0]['teacher'],
+        year: maps[0]['year'],
+      );
+    } else {
+      return SubjectData(id: id);
+    }
+  }
+
   static Future<bool> insertSubject(SubjectData data) async {
+    if (_db == null) await init();
+
     try {
       _db.transaction((txn) async {
         // insert into assignment
         var subjData = data.toMap();
-        int subjectID = await txn.insert(
+        await txn.insert(
           'subject',
           subjData,
           conflictAlgorithm: ConflictAlgorithm.fail,

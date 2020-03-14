@@ -7,10 +7,10 @@ class AssignmentData {
   final int id;
   final String title;
   final String desc;
-  final MaterialColor color;
+  final Color color;
   final SubjectData subject;
-  final DateTime timestamp;
-  final DateTime dueDate;
+  final int timestamp;
+  final int dueDate;
   final List<AssignmentAttachmentData> attachments;
 
   AssignmentData(
@@ -29,8 +29,8 @@ class AssignmentData {
       'desc': desc,
       'color': color.value,
       'subject': subject.id,
-      'timestamp': timestamp.millisecondsSinceEpoch,
-      'duedate': dueDate.millisecondsSinceEpoch,
+      'timestamp': timestamp,
+      'duedate': dueDate,
       'attachments': attachments,
     };
   }

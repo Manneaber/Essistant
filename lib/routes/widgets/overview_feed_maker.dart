@@ -34,10 +34,9 @@ class FeedMaker {
     List<Widget> lists = [];
 
     for (var assignment in assignments) {
-      lists.add(_buildBody(assignment));
-      lists.add(_buildSeperator());
+      if (lists.length != 0) lists.add(_buildSeperator());
+      if (assignment.dueDate != null) lists.add(_buildBody(assignment));
     }
-    lists.removeLast();
 
     return Container(
       width: double.maxFinite,
@@ -114,8 +113,9 @@ class FeedMaker {
                     ),
                     Text(
                       "กำหนดส่ง " +
-                          DateFormat("dd MMMM yyyy HH:mm", 'th_TH')
-                              .format(assignment.dueDate),
+                          DateFormat("dd MMMM yyyy HH:mm", 'th_TH').format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  assignment.dueDate)),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:
