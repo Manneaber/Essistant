@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,47 @@ class SubjectPickerRoute extends StatefulWidget {
 }
 
 class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
+  Widget _buildCard(List<SubjectData> data) {
+    List<Widget> children = [];
+
+    for (int i = 0; i < data.length; i++) {
+      if (i != 0) children.add(_buildSeperator());
+      children.add(_buildItem(data[i]));
+    }
+
+    return Container(
+      margin: EdgeInsets.only(bottom: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: Text(
+              'ปีการศึกษา ' + data[0].year,
+              style: TextStyle(fontSize: 18, color: Colors.black),
+            ),
+          ),
+          Container(
+            width: double.maxFinite,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+              border: Border.fromBorderSide(
+                BorderSide(color: Colors.grey[300], width: 0.5),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,38 +66,44 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
           FutureBuilder(
             future: AssignmentRepository.getAllSubject(),
             builder: (context, snapshot) {
-              List<Widget> children = [];
-
               if (snapshot.hasData) {
+                Map<String, List<SubjectData>> subjectMap = Map();
+                List<Widget> cards = [];
+
                 for (SubjectData elem in snapshot.data) {
-                  if (children.length != 0) children.add(_buildSeperator());
-                  children.add(_buildItem(elem));
+                  if (subjectMap.containsKey(elem.year)) {
+                    var y = subjectMap[elem.year];
+                    y.add(elem);
+                    subjectMap[elem.year] = y;
+                  } else {
+                    subjectMap[elem.year] = [elem];
+                  }
+                }
+
+                // Sort
+                var newMap = Map.fromEntries(subjectMap.entries.toList()
+
+                  ..sort((e1, e2) => int.parse(e2.key)
+                      .compareTo(int.parse(e1.key))));
+
+                for (List<SubjectData> subjs in newMap.values) {
+                  cards.add(_buildCard(subjs));
+                }
+
+                if (cards.length > 0) {
+                  return Column(children: cards);
+                } else {
+                  return Container();
                 }
               } else {
-                children = <Widget>[
-                  SizedBox(
+                return Center(
+                  child: SizedBox(
                     child: CircularProgressIndicator(),
                     width: 60,
                     height: 60,
                   ),
-                ];
+                );
               }
-              return Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25),
-                  border: Border.fromBorderSide(
-                    BorderSide(color: Colors.grey[300], width: 0.5),
-                  ),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: children,
-                ),
-              );
             },
           ),
           SizedBox(height: 15),
