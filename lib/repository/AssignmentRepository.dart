@@ -131,7 +131,35 @@ class AssignmentRepository {
           subject: await findSubjectByID(elem['subject']),
           timestamp: elem['timestamp'],
           dueDate: elem['duedate'],
-          // attachments: elem['attachments'],
+          attachments: [],
+        ),
+      );
+    }
+
+    return lists;
+  }
+
+  static Future<List<AssignmentData>> getAllAssignmentsInSubject(int subID) async {
+    if (_db == null) await init();
+
+    final List<Map<String, dynamic>> maps = await _db.query(
+      'assignment',
+      where: 'subject = ?',
+      whereArgs: [subID],
+    );
+
+    List<AssignmentData> lists = [];
+    for (var elem in maps) {
+      lists.add(
+        AssignmentData(
+          id: elem['id'],
+          title: elem['title'],
+          desc: elem['desc'],
+          color: Color(elem['color']),
+          subject: await findSubjectByID(elem['subject']),
+          timestamp: elem['timestamp'],
+          dueDate: elem['duedate'],
+          attachments: [],
         ),
       );
     }
