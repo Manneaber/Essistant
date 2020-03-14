@@ -29,9 +29,9 @@ class _SubDatailRouteState extends State<SubDatailRoute> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(left: 15,top: 15,bottom: 10),
+            padding: EdgeInsets.only(left: 15, top: 15, bottom: 10),
             child: Text(
-              'งานทั้งหมด' ,
+              'งานทั้งหมด',
               style: TextStyle(fontSize: 22, color: Colors.black),
             ),
           ),
@@ -76,12 +76,11 @@ class _SubDatailRouteState extends State<SubDatailRoute> {
               if (snapshot.hasData) {
                 if (snapshot.data.length > 0) {
                   return Column(
-                    children: [_buildCard(snapshot.data),
-                    Container(
-                      child: Column(
-                        
+                    children: [
+                      _buildCard(snapshot.data),
+                      Container(
+                        child: Column(),
                       ),
-                    ),
                     ],
                   );
                 } else {
@@ -105,71 +104,71 @@ class _SubDatailRouteState extends State<SubDatailRoute> {
 }
 
 Widget _buildBody(AssignmentData subjectData) {
- return Dismissible(
-   background: Container(color: Colors.red),
-            // Each Dismissible must contain a Key. Keys allow Flutter to
-            // uniquely identify widgets.
-            key: Key(subjectData.id.toString()),
-            // Provide a function that tells the app
-            // what to do after an item has been swiped away.
-            onDismissed: (direction) {
-              // Remove the item from the data source.
-              //setState(() {});
-              // Show a snackbar. This snackbar could also contain "Undo" actions.
-            },
-            child:Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: () {
-        navigationKey.currentState
-            .pushNamed('/subjectdetail', arguments: subjectData);
-      },
-      child: SizedBox(
-        height: 75,
-        child: Row(
-          children: <Widget>[
-            SizedBox(width: 15),
-            SizedBox(
-              width: 40,
-              height: 40,
-              child: CircleAvatar(
-                backgroundColor: Colors.blue,
+  return Dismissible(
+    background: Container(
+      color: Colors.red,
+      alignment: Alignment.centerRight,
+      padding: EdgeInsets.only(right: 20),
+      child: Icon(Icons.delete, color: Colors.white,),
+    ),
+    key: Key(subjectData.id.toString()),
+    onDismissed: (direction) {
+      // Remove the item from the data source.
+      //setState(() {});
+    },
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          navigationKey.currentState
+              .pushNamed('/subjectdetail', arguments: subjectData);
+        },
+        child: SizedBox(
+          height: 75,
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 15),
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue,
+                ),
               ),
-            ),
-            SizedBox(width: 15),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    subjectData.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  Text(
-                    subjectData.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
+              SizedBox(width: 15),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      subjectData.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 15),
                     ),
-                  ),
-                ],
+                    Text(
+                      subjectData.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(width: 18),
-          ],
+              SizedBox(width: 18),
+            ],
+          ),
         ),
       ),
     ),
-  ),
-          );}
+  );
+}
 
- 
 Widget _buildSeperator() {
   return Container(
     height: 1,
