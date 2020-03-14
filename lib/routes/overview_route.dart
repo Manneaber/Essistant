@@ -1,3 +1,4 @@
+import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/AssignmentData.dart';
 import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:essistant/routes/widgets/animated_floating_button.dart';
@@ -13,85 +14,42 @@ class OverviewRoute extends StatefulWidget {
 }
 
 class _OverviewRouteState extends State<OverviewRoute> {
-  SubjectData subject1 = SubjectData(
-    id: 0,
-    title: 'Test Subject',
-    teacher: 'Dinodorinna',
-  );
+  Widget _getTask() {
+    return FutureBuilder(
+      builder: (context, snap) {
+        if (snap.hasData) {
+          /*return widget.maker
+            .create(title: "งานในวันนี้", assignments: snap.data);*/
 
-  List<AssignmentData> _fakeData1;
-  List<AssignmentData> _fakeData2;
-  List<AssignmentData> _fakeData3;
+          List<AssignmentData> data = snap.data;
 
-  _OverviewRouteState() {
-    _fakeData1 = [
-      AssignmentData(
-        title: 'โปรเกสงาน Android Term Project',
-        desc:
-            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
-        color: Colors.indigo,
-        timestamp: DateTime.now(),
-        dueDate: DateTime.now(),
-        attachments: [],
-        subject: subject1,
-      ),
-    ];
-
-    _fakeData2 = [
-      AssignmentData(
-        title: 'โปรเกสงาน Android Term Project',
-        desc:
-            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
-        color: Colors.indigo,
-        timestamp: DateTime.now(),
-        dueDate: DateTime.now(),
-        attachments: [],
-        subject: subject1,
-      ),
-      AssignmentData(
-        title: 'โปรเกสงาน Android Term Project',
-        desc:
-            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
-        color: Colors.indigo,
-        timestamp: DateTime.now(),
-        dueDate: DateTime.now(),
-        attachments: [],
-        subject: subject1,
-      ),
-    ];
-
-    _fakeData3 = [
-      AssignmentData(
-        title: 'โปรเกสงาน Android Term Project',
-        desc:
-            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
-        color: Colors.indigo,
-        timestamp: DateTime.now(),
-        dueDate: DateTime.now(),
-        attachments: [],
-        subject: subject1,
-      ),
-      AssignmentData(
-        title: 'โปรเกสงาน Android Term Project',
-        desc:
-            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
-        color: Colors.indigo,
-        timestamp: DateTime.now(),
-        dueDate: DateTime.now(),
-        attachments: [],
-        subject: subject1,
-      ),
-      AssignmentData(
-        title: 'โปรเกสงาน Android Term Project',
-        desc:
-            'นำเสนอหน้าตาของตัวโปรแกรม ฟังก์ชันที่ใช้งานได้แล้ว นำเสนอเป็น ppt',
-        color: Colors.indigo,
-        timestamp: DateTime.now(),
-        dueDate: DateTime.now(),
-        attachments: [],
-        subject: subject1,
-      ),
-    ];
+          if (data.length == 0) {
+            return Container(
+              margin: EdgeInsets.only(top: 15),
+              child: Center(
+                child: Text(
+                  'ดีใจจัง ไม่มีงานเลย',
+                  style: TextStyle(fontSize: 17, color: Colors.black45),
+                ),
+              ),
+            );
+          } else {
+            return widget.maker.create(title: "งานในวันนี้", assignments: data);
+          }
+        } else {
+          return Container(
+            margin: EdgeInsets.only(top: 15),
+            child: Center(
+              child: Text(
+                'กำลังโหลดข้อมูล...',
+                style: TextStyle(fontSize: 17, color: Colors.black45),
+              ),
+            ),
+          );
+        }
+      },
+      future: AssignmentRepository.getAllAssignments(),
+    );
   }
 
   @override
@@ -103,10 +61,11 @@ class _OverviewRouteState extends State<OverviewRoute> {
         physics: BouncingScrollPhysics(),
         children: [
           OverviewTop(),
-          widget.maker.create(title: "งานในวันนี้", assignments: _fakeData1),
+          _getTask(),
+          /*widget.maker.create(title: "งานในวันนี้", assignments: _fakeData1),
           widget.maker
               .create(title: "งานในวันพรุ่งนี้", assignments: _fakeData2),
-          widget.maker.create(title: "งานในวันมะรืน", assignments: _fakeData3),
+          widget.maker.create(title: "งานในวันมะรืน", assignments: _fakeData3),*/
           SizedBox(height: 25),
         ],
       ),
