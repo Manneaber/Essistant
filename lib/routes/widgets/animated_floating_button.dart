@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:essistant/routes/TakePictureScreen.dart';
+import 'package:essistant/routes/displaypicture_route.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -137,7 +138,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      DisplayPictureScreen(imagePath: img.path),
+                                      DisplayPictureRoute(imagePath: img.path),
                                 ),
                               );
                             },

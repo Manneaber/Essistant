@@ -1,7 +1,7 @@
 import 'AssignmentAttachmentType.dart';
 
 class AssignmentAttachmentData {
-  final String id;
+  final int id;
   final int assid;
   final String url;
   final AssignmentAttachmentType type;

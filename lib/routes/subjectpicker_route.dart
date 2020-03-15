@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +59,7 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
         centerTitle: true,
       ),
       body: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
         children: <Widget>[
           SizedBox(height: 15),
           FutureBuilder(
@@ -181,7 +180,7 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
@@ -190,7 +189,7 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 15),
                     ),
-                    Text(
+                    subjectData.teacher.length > 0 ? Text(
                       subjectData.teacher,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -198,7 +197,7 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
                         fontSize: 13,
                         fontWeight: FontWeight.w300,
                       ),
-                    ),
+                    ) : Container(),
                   ],
                 ),
               ),

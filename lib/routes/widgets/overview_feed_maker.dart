@@ -1,10 +1,11 @@
 import 'package:essistant/repository/data/AssignmentData.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+import '../../main.dart';
 
 class FeedMaker {
   Widget create({String title, @required List<AssignmentData> assignments}) {
-    if (assignments == null || assignments.length <= 0)
+    if (assignments == null || assignments.length == 0)
       throw ("Assignment length should longer than 0");
 
     return Column(
@@ -35,7 +36,7 @@ class FeedMaker {
 
     for (var assignment in assignments) {
       if (lists.length != 0) lists.add(_buildSeperator());
-      if (assignment.dueDate != null) lists.add(_buildBody(assignment));
+      lists.add(_buildBody(assignment));
     }
 
     return Container(
@@ -76,7 +77,10 @@ class FeedMaker {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          navigationKey.currentState
+              .pushNamed('/assignmentdetail', arguments: assignment);
+        },
         child: SizedBox(
           height: 75,
           child: Row(
@@ -86,14 +90,14 @@ class FeedMaker {
                 width: 40,
                 height: 40,
                 child: CircleAvatar(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: assignment.color,
                 ),
               ),
               SizedBox(width: 15),
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
@@ -102,15 +106,17 @@ class FeedMaker {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 15),
                     ),
-                    Text(
-                      assignment.desc,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
+                    assignment.desc.length > 0
+                        ? Text(
+                            assignment.desc,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          )
+                        : Container(),
                     Text(
                       assignment.subject.title,
                       maxLines: 1,

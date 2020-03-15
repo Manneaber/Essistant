@@ -1,11 +1,11 @@
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/AssignmentData.dart';
-import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:essistant/routes/widgets/animated_floating_button.dart';
 import 'package:essistant/routes/widgets/overview_feed_maker.dart';
-import 'package:essistant/routes/widgets/overview_top_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../main.dart';
 
 class OverviewRoute extends StatefulWidget {
   final FeedMaker maker = FeedMaker();
@@ -47,14 +47,20 @@ class _OverviewRouteState extends State<OverviewRoute> {
                 } else {
                   assignmentMap[diff] = [elem];
                 }
+              } else {
+                if (assignmentMap.containsKey(999)) {
+                  assignmentMap[999].add(elem);
+                } else {
+                  assignmentMap[999] = [elem];
+                }
               }
             }
 
             var newMap = Map.fromEntries(assignmentMap.entries.toList()
-              ..sort(
-                  (e1, e2) => e1.key.compareTo(e2.key)));
+              ..sort((e1, e2) => e1.key.compareTo(e2.key)));
 
             List<Widget> lists = [];
+            List<AssignmentData> overdues = [];
             for (int key in newMap.keys) {
               String keyStr;
               switch (key) {
@@ -67,13 +73,17 @@ class _OverviewRouteState extends State<OverviewRoute> {
                 case 2:
                   keyStr = "งานในมะรืน";
                   break;
+                case 999:
+                  keyStr = "งานไม่มีกำหนดส่ง";
+                  break;
                 default:
                   if (key >= 3) {
                     keyStr = DateFormat("dd MMMM yyyy", 'th_TH').format(
                         DateTime.fromMillisecondsSinceEpoch(
                             assignmentMap[key][0].dueDate));
                   } else {
-                    keyStr = "งานที่เลยกำหนด";
+                    overdues.addAll(newMap[key]);
+                    continue;
                   }
                   break;
               }
@@ -81,6 +91,11 @@ class _OverviewRouteState extends State<OverviewRoute> {
               lists.add(widget.maker
                   .create(title: keyStr, assignments: assignmentMap[key]));
             }
+            if (overdues.length > 0)
+              lists.insert(
+                  0,
+                  widget.maker.create(
+                      title: 'งานที่เลยกำหนดส่ง', assignments: overdues));
 
             return Column(
               children: lists,
@@ -98,7 +113,7 @@ class _OverviewRouteState extends State<OverviewRoute> {
           );
         }
       },
-      future: AssignmentRepository.getAllAssignments(),
+      future: AssignmentRepository.getAllNotFinishedAssignments(),
     );
   }
 
@@ -110,10 +125,15 @@ class _OverviewRouteState extends State<OverviewRoute> {
         title: Text('ภาพรวมการบ้าน'),
         elevation: 0.5,
       ),
-      floatingActionButton: AnimatedFloatingButton(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          navigationKey.currentState.pushNamed('/addtask');
+        },
+      ),
       backgroundColor: Colors.grey[100],
       body: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: AlwaysScrollableScrollPhysics(),
         children: [
           _getTask(),
           SizedBox(height: 25),

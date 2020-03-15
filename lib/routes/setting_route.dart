@@ -27,7 +27,7 @@ class _SettingRouteState extends State<SettingRoute> {
       ),
       backgroundColor: Colors.grey[100],
       body: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: AlwaysScrollableScrollPhysics(),
         children: [
           SizedBox(height: 15),
           Container(

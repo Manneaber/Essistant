@@ -1,4 +1,3 @@
-import 'package:charts_flutter/flutter.dart';
 import 'package:essistant/main.dart';
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/SubjectData.dart';
@@ -71,6 +70,7 @@ class _SubjectRouteState extends State<SubjectRoute> {
         elevation: 0.5, //shadow
       ),
       body: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
         children: <Widget>[
           SizedBox(height: 15),
           FutureBuilder(
@@ -104,11 +104,13 @@ class _SubjectRouteState extends State<SubjectRoute> {
                   return Container();
                 }
               } else {
-                return Center(
-                  child: SizedBox(
-                    child: CircularProgressIndicator(),
-                    width: 60,
-                    height: 60,
+                return Container(
+                  margin: EdgeInsets.only(top: 15),
+                  child: Center(
+                    child: Text(
+                      'กำลังโหลดข้อมูล...',
+                      style: TextStyle(fontSize: 17, color: Colors.black45),
+                    ),
                   ),
                 );
               }
@@ -143,7 +145,7 @@ class _SubjectRouteState extends State<SubjectRoute> {
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
@@ -152,7 +154,7 @@ class _SubjectRouteState extends State<SubjectRoute> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 15),
                     ),
-                    Text(
+                    subjectData.teacher.length > 0 ? Text(
                       subjectData.teacher,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -160,7 +162,7 @@ class _SubjectRouteState extends State<SubjectRoute> {
                         fontSize: 13,
                         fontWeight: FontWeight.w300,
                       ),
-                    ),
+                    ) : Container(),
                   ],
                 ),
               ),

@@ -53,6 +53,7 @@ class AddSubjectRoute extends StatelessWidget {
       body: Form(
         key: _form,
         child: ListView(
+          physics: AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
           children: <Widget>[
             Container(

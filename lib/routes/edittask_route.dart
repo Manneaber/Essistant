@@ -16,24 +16,91 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
-class AddTaskRoute extends StatefulWidget {
+class EditTaskRoute extends StatefulWidget {
   @override
-  _AddTaskRouteState createState() => _AddTaskRouteState();
+  _EditTaskRouteState createState() => _EditTaskRouteState();
 }
 
-class _AddTaskRouteState extends State<AddTaskRoute> {
+class _EditTaskRouteState extends State<EditTaskRoute> {
   final _form = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
 
   final Color _inputBg = Colors.grey[200];
+  int _assignmentID;
   SubjectData _selectedSubject;
-  bool _isLockSubject = false;
+  bool _isLockSubject = true;
+  bool _isFirstTime = true;
   int _dueDate;
   List<AssignmentAttachmentData> _attachments = [];
+  List<AssignmentAttachmentData> _attachmentsNew = [];
   List<Widget> _addedAttachment = [];
   String _dueDateText = 'ระบุวันที่กำหนดส่ง';
   String _selectedSubjectText = 'วิชา';
+
+  Widget _buildAttachmentItem(File newImage, int curIndex) {
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("ต้องการจะลบจริงหรือไม่"),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    navigationKey.currentState.pop();
+                  },
+                  child: Text("ไม่"),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    newImage.deleteSync();
+                    int index = _attachments
+                        .indexWhere((elem) => elem.url == newImage.path);
+                    _addedAttachment.removeAt(index);
+                    _attachments.removeAt(index);
+
+                    setState(() {});
+                    navigationKey.currentState.pop();
+                  },
+                  child: Text("ลบ"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child: Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Row(
+          children: <Widget>[
+            SizedBox(width: 70),
+            Expanded(
+              child: Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  color: _inputBg,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                ),
+                padding: EdgeInsets.all(10),
+                child: Image.file(
+                  newImage,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(width: 18),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _attachment() {
     return Container(
@@ -65,7 +132,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                     uuid.v1() +
                     path.basename(image.path));
                 print(newImage);
-                _attachments.add(
+                _attachmentsNew.add(
                   AssignmentAttachmentData(
                     url: newImage.path,
                     type: AssignmentAttachmentType.IMAGE,
@@ -74,72 +141,9 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
 
                 setState(
                   () {
-                    _addedAttachment.add(
-                      InkWell(
-                        onTap: () {
-                          print(newImage.path);
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("ต้องการจะลบจริงหรือไม่"),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                ),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      navigationKey.currentState.pop();
-                                    },
-                                    child: Text("ไม่"),
-                                  ),
-                                  FlatButton(
-                                    onPressed: () {
-                                      newImage.deleteSync();
-                                      int index = _attachments.indexWhere(
-                                          (elem) => elem.url == newImage.path);
-                                      _addedAttachment.removeAt(index);
-                                      _attachments.removeAt(index);
-
-                                      setState(() {});
-
-                                      navigationKey.currentState.pop();
-                                    },
-                                    child: Text("ลบ"),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Row(
-                            children: <Widget>[
-                              SizedBox(width: 70),
-                              Expanded(
-                                child: Container(
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                    color: _inputBg,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.0),
-                                    ),
-                                  ),
-                                  padding: EdgeInsets.all(10),
-                                  child: Image.file(
-                                    newImage,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 18),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                    final curIndex = _addedAttachment.length;
+                    _addedAttachment
+                        .add(_buildAttachmentItem(newImage, curIndex));
                   },
                 );
               }
@@ -569,39 +573,92 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
       return;
     }
 
-    var assignment = AssignmentData(
-        title: _titleController.text,
-        desc: _descController.text,
-        color: Colors.blue,
-        subject: _selectedSubject,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        dueDate: _dueDate,
-        attachments: _attachments);
+    var attm = _attachments.toList();
+    attm.addAll(_attachmentsNew);
 
-    AssignmentRepository.insertAssignment(assignment);
+    var assignment = AssignmentData(
+      title: _titleController.text,
+      desc: _descController.text,
+      color: Colors.blue,
+      subject: _selectedSubject,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      dueDate: _dueDate,
+      attachments: attm,
+    );
+
+    AssignmentRepository.updateAssignmentByID(_assignmentID, assignment);
     navigationKey.currentState.pop();
+  }
+
+  Widget _buildComplete(AssignmentData assignmentData) {
+    if (_isFirstTime) {
+      _assignmentID = assignmentData.id;
+      _titleController.text = assignmentData.title;
+      _descController.text = assignmentData.desc;
+      _selectedSubject = assignmentData.subject;
+      _selectedSubjectText = assignmentData.subject.title;
+      if (assignmentData.dueDate != null) {
+        _dueDate = assignmentData.dueDate;
+        _dueDateText = DateFormat("dd MMMM yyyy", 'th_TH').format(
+            DateTime.fromMillisecondsSinceEpoch(assignmentData.dueDate));
+      }
+      _attachments = assignmentData.attachments;
+      _addedAttachment = [];
+
+      _attachments.asMap().forEach((i, k) {
+        _addedAttachment.add(_buildAttachmentItem(File(k.url), i));
+      });
+
+      _isFirstTime = false;
+    }
+
+    return Form(
+      key: _form,
+      child: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+        children: <Widget>[
+          _title(),
+          SizedBox(height: 15),
+          _subject(),
+          SizedBox(height: 15),
+          _date(),
+          SizedBox(height: 15),
+          _attachment(),
+          SizedBox(height: 15),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoading() {
+    return Container(
+      margin: EdgeInsets.only(top: 15),
+      child: Center(
+        child: Text(
+          'กำลังโหลดข้อมูล...',
+          style: TextStyle(fontSize: 17, color: Colors.black45),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final dynamic args = ModalRoute.of(context).settings.arguments;
-    if (args != null && args['subject'] != null) {
-      SubjectData subjectData = args['subject'];
-      _selectedSubject = subjectData;
-      _selectedSubjectText = subjectData.title;
-      _isLockSubject = true;
-    }
+    final Future<AssignmentData> args =
+        ModalRoute.of(context).settings.arguments;
+    _isLockSubject = true;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text("เพิ่มงานใหม่"),
+        title: Text("แก้ไขงาน"),
         centerTitle: true,
         elevation: 0.5,
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
-            if (_attachments.length > 0) {
+            if (_attachmentsNew.length > 0) {
               showDialog(
                   context: context,
                   builder: (context) {
@@ -619,7 +676,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                         ),
                         FlatButton(
                           onPressed: () {
-                            for (var attachment in _attachments) {
+                            for (var attachment in _attachmentsNew) {
                               File(attachment.url).deleteSync();
                             }
 
@@ -643,22 +700,15 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
           ),
         ],
       ),
-      body: Form(
-        key: _form,
-        child: ListView(
-          physics: AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-          children: <Widget>[
-            _title(),
-            SizedBox(height: 15),
-            _subject(),
-            SizedBox(height: 15),
-            _date(),
-            SizedBox(height: 15),
-            _attachment(),
-            SizedBox(height: 15),
-          ],
-        ),
+      body: FutureBuilder(
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return _buildComplete(snapshot.data);
+          } else {
+            return _buildLoading();
+          }
+        },
+        future: args,
       ),
     );
   }
