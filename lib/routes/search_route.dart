@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -9,48 +11,10 @@ class SearchRoute extends StatefulWidget {
 class _SearchRouteState extends State<SearchRoute> {
   final TextEditingController _searchText = new TextEditingController();
   List<Widget> _serchAction;
-
-  void test() async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_action_name');
-    var initializationSettingsIOS = IOSInitializationSettings(
-        onDidReceiveLocalNotification: (a,b,c,d) {});
-    var initializationSettings = InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
-
-    var scheduledNotificationDateTime =
-        DateTime.now().add(Duration(minutes: 1));
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        '1534523462376',
-        'Misc',
-        'Misc Test Channel');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    NotificationDetails platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.schedule(
-        0,
-        'scheduled title',
-        'scheduled body',
-        scheduledNotificationDateTime,
-        platformChannelSpecifics);
-    print('scheduled');
-  }
-
-  Future onSelectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-  }
+  Timer _t;
 
   @override
   Widget build(BuildContext context) {
-    test();
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -60,6 +24,14 @@ class _SearchRouteState extends State<SearchRoute> {
           height: 45,
           child: TextField(
             controller: _searchText,
+            onChanged: (val) {
+              if (_t != null && _t.isActive) {
+                _t.cancel();
+              }
+              _t = Timer(Duration(seconds: 1), () {
+                print(val);
+              });
+            },
             onTap: () {
               setState(() {
                 _serchAction = [

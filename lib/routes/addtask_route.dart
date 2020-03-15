@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:essistant/NotificationCenter.dart';
 import 'package:essistant/main.dart';
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/AssignmentAttachmentData.dart';
@@ -51,6 +52,8 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
         children: [
           InkWell(
             onTap: () async {
+              FocusScope.of(context).unfocus();
+              
               File image =
                   await ImagePicker.pickImage(source: ImageSource.gallery);
               if (image != null) {
@@ -215,6 +218,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
         children: [
           InkWell(
             onTap: () async {
+              FocusScope.of(context).unfocus();
               if (_isLockSubject) return;
 
               var result =
@@ -289,6 +293,8 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
         children: [
           InkWell(
             onTap: () async {
+              FocusScope.of(context).unfocus();
+
               DateTime newDateTime = await showRoundedDatePicker(
                 context: context,
                 theme: ThemeData(primarySwatch: Colors.blue),
@@ -560,7 +566,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
     );
   }
 
-  void _onFormSubmited() {
+  void _onFormSubmited() async {
     if (!_form.currentState.validate()) {
       return;
     }
@@ -570,15 +576,33 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
     }
 
     var assignment = AssignmentData(
-        title: _titleController.text,
-        desc: _descController.text,
-        color: Colors.blue,
-        subject: _selectedSubject,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        dueDate: _dueDate,
-        attachments: _attachments);
+      title: _titleController.text,
+      desc: _descController.text,
+      color: Colors.blue,
+      subject: _selectedSubject,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      dueDate: _dueDate,
+      attachments: _attachments,
+    );
 
-    AssignmentRepository.insertAssignment(assignment);
+    var id = await AssignmentRepository.insertAssignment(assignment);
+
+    if (_dueDate != null) {
+      var selectedDate = DateTime.fromMillisecondsSinceEpoch(_dueDate);
+      var alertDate = selectedDate.subtract(Duration(days: 1));
+      if (alertDate.isBefore(DateTime.now()))
+        alertDate = DateTime.now().add(Duration(seconds: 5));
+
+      await NotificationCenter.sendScheduledToAssignmentChannel(
+        id: id,
+        title: _titleController.text + " ใกล้ถึงกำหนดส่งแล้วนะ",
+        body: "งานนี้จะต้องส่งในวันที่ " +
+            DateFormat("dd MMMM yyyy", 'th_TH').format(selectedDate),
+        time: DateTime.fromMillisecondsSinceEpoch(_dueDate)
+            .subtract(Duration(days: 1)),
+      );
+    }
+
     navigationKey.currentState.pop();
   }
 

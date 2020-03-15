@@ -59,16 +59,17 @@ class AssignmentRepository {
     );
   }
 
-  static Future<bool> insertAssignment(AssignmentData data) async {
+  static Future<int> insertAssignment(AssignmentData data) async {
     if (_db == null) await init();
 
     try {
-      _db.transaction((txn) async {
+      int assignmentID;
+      await _db.transaction((txn) async {
         // insert into assignment
         var assmData = data.toMap();
         assmData['subject'] = data.subject.id;
         assmData.remove('attachments');
-        int assignmentID = await txn.insert(
+        assignmentID = await txn.insert(
           'assignment',
           assmData,
           conflictAlgorithm: ConflictAlgorithm.fail,
@@ -89,13 +90,12 @@ class AssignmentRepository {
           await batch.commit();
         }
       });
+      return assignmentID;
     } catch (e) {
       print(e);
 
-      return false;
+      return -1;
     }
-
-    return true;
   }
 
   static Future<bool> updateAssignmentByID(int id, AssignmentData data) async {

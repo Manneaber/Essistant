@@ -458,7 +458,7 @@ class _AssignmentDetailRouteState extends State<AssignmentDetailRoute> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("รายละเอียดการบ้าน"),
+        title: Text("รายละเอียดงาน"),
         elevation: 0.5,
         actions: [
           IconButton(

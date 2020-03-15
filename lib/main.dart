@@ -1,4 +1,4 @@
-import 'package:essistant/repository/AssignmentRepository.dart';
+import 'package:essistant/NotificationCenter.dart';
 import 'package:essistant/routes/addsubject_route.dart';
 import 'package:essistant/routes/addtask_route.dart';
 import 'package:essistant/routes/assignmentdetail_route.dart';
@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 final navigationKey = GlobalKey<NavigatorState>();
-final db = AssignmentRepository();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationCenter.init();
   runApp(MyApp());
 }
 

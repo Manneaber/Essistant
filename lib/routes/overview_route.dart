@@ -1,6 +1,5 @@
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/AssignmentData.dart';
-import 'package:essistant/routes/widgets/animated_floating_button.dart';
 import 'package:essistant/routes/widgets/overview_feed_maker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
