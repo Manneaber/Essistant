@@ -1,3 +1,5 @@
+import 'package:essistant/repository/AssignmentRepository.dart';
+import 'package:essistant/repository/data/AssignmentData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,15 +9,11 @@ class SettingRoute extends StatefulWidget {
 }
 
 class _SettingRouteState extends State<SettingRoute> {
-
-  IconData _gdriveCheck = Icons.check_box_outline_blank;
-
   _SettingRouteState() {
     updateStatus();
   }
 
-  Future<void> updateStatus() async {
-  }
+  Future<void> updateStatus() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +27,86 @@ class _SettingRouteState extends State<SettingRoute> {
       body: ListView(
         physics: AlwaysScrollableScrollPhysics(),
         children: [
+          SizedBox(height: 15),
           Container(
-            margin: EdgeInsets.only(top: 15),
+            height: 75,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+              border: Border.fromBorderSide(
+                BorderSide(color: Colors.grey[300], width: 0.5),
+              ),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("ลบทั้งหมด?"),
+                          content: Text("แน่ใจนะว่าจะลบทั้งหมด"),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("ไม่"),
+                            ),
+                            FlatButton(
+                              onPressed: () async {
+                                await AssignmentRepository.clearAll();
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("ใช่"),
+                            ),
+                          ],
+                        );
+                      });
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(width: 15),
+                    SizedBox(
+                      width: 40,
+                      child: Icon(Icons.delete, size: 27),
+                    ),
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("ลบข้อมูลทั้งหมด",
+                              style: TextStyle(fontSize: 16)),
+                          Text(
+                            "ลบข้อมูลการบ้านและรายวิชาทั้งหมด",
+                            maxLines: 1,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          Container(
             height: 75,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -58,7 +134,7 @@ class _SettingRouteState extends State<SettingRoute> {
                     children: <Widget>[
                       Text("Essistant", style: TextStyle(fontSize: 16)),
                       Text(
-                        "Alpha Build 28022020-1",
+                        "Beta Build 16032020-1",
                         maxLines: 1,
                         overflow: TextOverflow.clip,
                         style: TextStyle(

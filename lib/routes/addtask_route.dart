@@ -55,8 +55,41 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
             onTap: () async {
               FocusScope.of(context).unfocus();
 
-              File image =
-                  await ImagePicker.pickImage(source: ImageSource.gallery);
+              var mode = await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("เลือกที่มาของไฟล์แนบ"),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(1);
+                        },
+                        child: Text("กล้อง"),
+                      ),
+                      FlatButton(
+                        onPressed: () async {
+                          await AssignmentRepository.clearAll();
+                          Navigator.of(context).pop(0);
+                        },
+                        child: Text("คลัง"),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              File image;
+              if (mode == 0) {
+                image =
+                    await ImagePicker.pickImage(source: ImageSource.gallery);
+              } else {
+                image = await ImagePicker.pickImage(source: ImageSource.camera);
+              }
+
               if (image != null) {
                 var localPath = await getApplicationDocumentsDirectory();
                 var _appDocDirFolder = Directory(localPath.path + '/img');

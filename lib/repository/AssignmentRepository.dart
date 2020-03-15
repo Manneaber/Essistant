@@ -60,6 +60,23 @@ class AssignmentRepository {
     );
   }
 
+  static Future<void> clearAll() async {
+    if (_db == null) await init();
+
+    try {
+      var attcms = await _db.query('assignment_attachment');
+      for (var elem in attcms) {
+        File(elem['url']).delete();
+      }
+
+      await _db.delete('assignment_attachment');
+      await _db.delete('assignment');
+      await _db.delete('subject');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   static Future<int> insertAssignment(AssignmentData data) async {
     if (_db == null) await init();
 
@@ -99,13 +116,15 @@ class AssignmentRepository {
     }
   }
 
-  static Future<List<AssignmentData>> findAssignmentByKeyword(String keyword) async {
+  static Future<List<AssignmentData>> findAssignmentByKeyword(
+      String keyword) async {
     if (_db == null) await init();
 
-    if (keyword == "") return null; 
+    if (keyword == "") return null;
 
     try {
-      var query = await _db.rawQuery("SELECT * FROM assignment WHERE title LIKE '%$keyword%' OR desc LIKE '%$keyword%'");
+      var query = await _db.rawQuery(
+          "SELECT * FROM assignment WHERE title LIKE '%$keyword%' OR desc LIKE '%$keyword%'");
 
       List<AssignmentData> assignments = [];
       for (var elem in query) {
