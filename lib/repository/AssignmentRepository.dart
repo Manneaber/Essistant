@@ -98,6 +98,40 @@ class AssignmentRepository {
     }
   }
 
+  static Future<List<AssignmentData>> findAssignmentByKeyword(String keyword) async {
+    if (_db == null) await init();
+
+    if (keyword == "") return null; 
+
+    try {
+      var query = await _db.rawQuery("SELECT * FROM assignment WHERE title LIKE '%$keyword%' OR desc LIKE '%$keyword%'");
+
+      List<AssignmentData> assignments = [];
+      for (var elem in query) {
+        assignments.add(
+          AssignmentData(
+            id: elem['id'],
+            title: elem['title'],
+            desc: elem['desc'],
+            color: Color(elem['color']),
+            subject:
+                await AssignmentRepository.findSubjectByID(elem['subject']),
+            timestamp: elem['timestamp'],
+            dueDate: elem['duedate'],
+            status: elem['status'],
+            attachments: [],
+          ),
+        );
+      }
+
+      return assignments;
+    } catch (e) {
+      print(e);
+
+      return null;
+    }
+  }
+
   static Future<bool> updateAssignmentByID(int id, AssignmentData data) async {
     if (_db == null) await init();
 
