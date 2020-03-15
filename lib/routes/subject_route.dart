@@ -138,7 +138,7 @@ class _SubjectRouteState extends State<SubjectRoute> {
                 width: 40,
                 height: 40,
                 child: CircleAvatar(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: subjectData.color,
                 ),
               ),
               SizedBox(width: 15),

@@ -476,6 +476,7 @@ class _AssignmentDetailRouteState extends State<AssignmentDetailRoute> {
           )
         ],
       ),
+      backgroundColor: Colors.grey[100],
       body: FutureBuilder(
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {

@@ -28,8 +28,9 @@ class AssignmentRepository {
         String s = 'CREATE TABLE subject(';
         s += 'id INTEGER PRIMARY KEY AUTOINCREMENT, ';
         s += 'title TEXT, ';
-        s += 'teacher TEXT,';
-        s += 'year TEXT';
+        s += 'teacher TEXT, ';
+        s += 'year TEXT, ';
+        s += 'color INTEGER';
         s += ')';
         await db.execute(s);
 
@@ -447,6 +448,7 @@ class AssignmentRepository {
           id: elem['id'],
           title: elem['title'],
           teacher: elem['teacher'],
+          color: Color(elem['color']),
           year: elem['year'],
         ),
       );
@@ -469,6 +471,7 @@ class AssignmentRepository {
         id: maps[0]['id'],
         title: maps[0]['title'],
         teacher: maps[0]['teacher'],
+        color: Color(maps[0]['color']),
         year: maps[0]['year'],
       );
     } else {

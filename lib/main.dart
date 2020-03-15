@@ -2,6 +2,7 @@ import 'package:essistant/NotificationCenter.dart';
 import 'package:essistant/routes/addsubject_route.dart';
 import 'package:essistant/routes/addtask_route.dart';
 import 'package:essistant/routes/assignmentdetail_route.dart';
+import 'package:essistant/routes/colorselect_route.dart';
 import 'package:essistant/routes/edittask_route.dart';
 import 'package:essistant/routes/main_view.dart';
 import 'package:essistant/routes/subdetail_route.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/picksubject': (context) => SubjectPickerRoute(),
         '/subjectdetail' : (context) => SubDatailRoute(),
         '/assignmentdetail' : (context) => AssignmentDetailRoute(),
+        '/colorselect' : (context) => ColorSelectRoute(),
       },
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,

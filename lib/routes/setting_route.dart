@@ -29,79 +29,8 @@ class _SettingRouteState extends State<SettingRoute> {
       body: ListView(
         physics: AlwaysScrollableScrollPhysics(),
         children: [
-          SizedBox(height: 15),
           Container(
-            height: 75,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25),
-              border: Border.fromBorderSide(
-                BorderSide(color: Colors.grey[300], width: 0.5),
-              ),
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("ลบทั้งหมด?"),
-                          content: Text("แน่ใจนะว่าจะลบทั้งหมด"),
-                          actions: <Widget>[
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("YES")),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("No")),
-                          ],
-                        );
-                      });
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(width: 15),
-                    SizedBox(
-                      width: 40,
-                      child: Icon(Icons.delete, size: 27),
-                    ),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("ลบข้อมูลทั้งหมด",
-                              style: TextStyle(fontSize: 16)),
-                          Text(
-                            "ลบข้อมูลการบ้านและรายวิชาทั้งหมด",
-                            maxLines: 1,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 15),
-          Container(
+            margin: EdgeInsets.only(top: 15),
             height: 75,
             decoration: BoxDecoration(
               color: Colors.white,

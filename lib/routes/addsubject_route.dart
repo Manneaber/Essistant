@@ -4,14 +4,19 @@ import 'package:essistant/repository/data/SubjectData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AddSubjectRoute extends StatelessWidget {
+class AddSubjectRoute extends StatefulWidget {
+  @override
+  _AddSubjectRouteState createState() => _AddSubjectRouteState();
+}
+
+class _AddSubjectRouteState extends State<AddSubjectRoute> {
   final _form = GlobalKey<FormState>();
   final _title = TextEditingController();
   final _desc = TextEditingController();
   final _year = TextEditingController();
 
-  // Color
   final Color _inputBg = Colors.grey[200];
+  Color _tagColor = Colors.blue;
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +41,14 @@ class AddSubjectRoute extends StatelessWidget {
                 var subjData = SubjectData(
                   title: _title.text,
                   teacher: _desc.text,
+                  color: _tagColor,
                   year: _year.text,
                 );
 
                 var res = await AssignmentRepository.insertSubject(subjData);
                 if (res) {
                   navigationKey.currentState.pop();
-                } else {
-                  
-                }
+                } else {}
               }
             },
           ),
@@ -69,54 +73,63 @@ class AddSubjectRoute extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InkWell(
-                    onTap: () {},
-                    child: SizedBox(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(width: 15),
-                          Container(
+                  SizedBox(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(width: 15),
+                        InkWell(
+                          onTap: () async {
+                            var res = await navigationKey.currentState
+                                .pushNamed('/colorselect');
+                            Color col = res;
+                            if (col != null) {
+                              setState(() {
+                                _tagColor = col;
+                              });
+                            }
+                          },
+                          child: Container(
                             width: 40,
                             height: 40,
                             margin: EdgeInsets.only(top: 15),
                             child: CircleAvatar(
-                              backgroundColor: Colors.blue,
+                              backgroundColor: _tagColor,
                             ),
                           ),
-                          SizedBox(width: 15),
-                          Expanded(
-                            child: TextFormField(
-                              controller: _title,
-                              validator: (val) {
-                                if (val.length <= 0) {
-                                  return "โปรดระบุชื่อวิชา";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'ชื่อวิชา',
-                                fillColor: _inputBg,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(10.0),
-                                  ),
-                                  borderSide: BorderSide.none,
+                        ),
+                        SizedBox(width: 15),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _title,
+                            validator: (val) {
+                              if (val.length <= 0) {
+                                return "โปรดระบุชื่อวิชา";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'ชื่อวิชา',
+                              fillColor: _inputBg,
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0),
                                 ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(10.0),
-                                  ),
-                                  borderSide:
-                                      BorderSide(color: Colors.red, width: 1),
+                                borderSide: BorderSide.none,
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0),
                                 ),
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 1),
                               ),
                             ),
                           ),
-                          SizedBox(width: 18),
-                        ],
-                      ),
+                        ),
+                        SizedBox(width: 18),
+                      ],
                     ),
                   ),
                   SizedBox(height: 10),

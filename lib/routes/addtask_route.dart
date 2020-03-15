@@ -28,6 +28,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
   final _descController = TextEditingController();
 
   final Color _inputBg = Colors.grey[200];
+  Color _tagColor = Colors.blue;
   SubjectData _selectedSubject;
   bool _isLockSubject = false;
   int _dueDate;
@@ -53,7 +54,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
           InkWell(
             onTap: () async {
               FocusScope.of(context).unfocus();
-              
+
               File image =
                   await ImagePicker.pickImage(source: ImageSource.gallery);
               if (image != null) {
@@ -466,53 +467,62 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-            onTap: () {},
-            child: SizedBox(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(width: 15),
-                  Container(
+          SizedBox(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(width: 15),
+                InkWell(
+                  onTap: () async {
+                    var res = await navigationKey.currentState
+                        .pushNamed('/colorselect');
+                    Color col = res;
+                    if (col != null) {
+                      setState(() {
+                        _tagColor = col;
+                      });
+                    }
+                  },
+                  child: Container(
                     width: 40,
                     height: 40,
                     margin: EdgeInsets.only(top: 15),
                     child: CircleAvatar(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: _tagColor,
                     ),
                   ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _titleController,
-                      validator: (val) {
-                        if (val.length <= 0) {
-                          return "โปรดระบุชื่อของงานเพื่อความง่ายในการจำ";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'ชื่องาน',
-                        fillColor: _inputBg,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
-                          ),
-                          borderSide: BorderSide.none,
+                ),
+                SizedBox(width: 15),
+                Expanded(
+                  child: TextFormField(
+                    controller: _titleController,
+                    validator: (val) {
+                      if (val.length <= 0) {
+                        return "โปรดระบุชื่อของงานเพื่อความง่ายในการจำ";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'ชื่องาน',
+                      fillColor: _inputBg,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
                         ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
-                          ),
-                          borderSide: BorderSide(color: Colors.red, width: 1),
+                        borderSide: BorderSide.none,
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
                         ),
+                        borderSide: BorderSide(color: Colors.red, width: 1),
                       ),
                     ),
                   ),
-                  SizedBox(width: 18),
-                ],
-              ),
+                ),
+                SizedBox(width: 18),
+              ],
             ),
           ),
           SizedBox(
@@ -578,7 +588,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
     var assignment = AssignmentData(
       title: _titleController.text,
       desc: _descController.text,
-      color: Colors.blue,
+      color: _tagColor,
       subject: _selectedSubject,
       timestamp: DateTime.now().millisecondsSinceEpoch,
       dueDate: _dueDate,

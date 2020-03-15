@@ -58,6 +58,7 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
         title: Text("เลือกวิชา"),
         centerTitle: true,
       ),
+      backgroundColor: Colors.grey[100],
       body: ListView(
         physics: AlwaysScrollableScrollPhysics(),
         children: <Widget>[
@@ -173,7 +174,7 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
                 width: 40,
                 height: 40,
                 child: CircleAvatar(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: subjectData.color,
                 ),
               ),
               SizedBox(width: 15),
