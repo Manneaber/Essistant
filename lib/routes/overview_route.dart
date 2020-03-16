@@ -70,7 +70,7 @@ class _OverviewRouteState extends State<OverviewRoute> {
                   keyStr = "งานในวันพรุ่งนี้";
                   break;
                 case 2:
-                  keyStr = "งานในมะรืน";
+                  keyStr = "งานในวันมะรืน";
                   break;
                 case 999:
                   keyStr = "งานไม่มีกำหนดส่ง";
@@ -121,7 +121,7 @@ class _OverviewRouteState extends State<OverviewRoute> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('ภาพรวมการบ้าน'),
+        title: Text('ภาพรวมงาน'),
         elevation: 0.5,
       ),
       floatingActionButton: FloatingActionButton(

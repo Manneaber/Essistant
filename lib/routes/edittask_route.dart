@@ -32,6 +32,7 @@ class _EditTaskRouteState extends State<EditTaskRoute> {
   bool _isLockSubject = true;
   bool _isFirstTime = true;
   int _dueDate;
+  Color _tagColor = Colors.blue;
   List<AssignmentAttachmentData> _attachments = [];
   List<AssignmentAttachmentData> _attachmentsNew = [];
   List<Widget> _addedAttachment = [];
@@ -118,8 +119,41 @@ class _EditTaskRouteState extends State<EditTaskRoute> {
         children: [
           InkWell(
             onTap: () async {
-              File image =
-                  await ImagePicker.pickImage(source: ImageSource.gallery);
+              var mode = await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("เลือกที่มาของไฟล์แนบ"),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(1);
+                        },
+                        child: Text("กล้อง"),
+                      ),
+                      FlatButton(
+                        onPressed: () async {
+                          await AssignmentRepository.clearAll();
+                          Navigator.of(context).pop(0);
+                        },
+                        child: Text("คลัง"),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              File image;
+              if (mode == 0) {
+                image =
+                    await ImagePicker.pickImage(source: ImageSource.gallery);
+              } else {
+                image = await ImagePicker.pickImage(source: ImageSource.camera);
+              }
+
               if (image != null) {
                 var localPath = await getApplicationDocumentsDirectory();
                 var _appDocDirFolder = Directory(localPath.path + '/img');
@@ -471,12 +505,24 @@ class _EditTaskRouteState extends State<EditTaskRoute> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(width: 15),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    margin: EdgeInsets.only(top: 15),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.blue,
+                  InkWell(
+                    onTap: () async {
+                      var res = await navigationKey.currentState
+                          .pushNamed('/colorselect');
+                      Color col = res;
+                      if (col != null) {
+                        setState(() {
+                          _tagColor = col;
+                        });
+                      }
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      margin: EdgeInsets.only(top: 15),
+                      child: CircleAvatar(
+                        backgroundColor: _tagColor,
+                      ),
                     ),
                   ),
                   SizedBox(width: 15),
@@ -579,7 +625,7 @@ class _EditTaskRouteState extends State<EditTaskRoute> {
     var assignment = AssignmentData(
       title: _titleController.text,
       desc: _descController.text,
-      color: Colors.blue,
+      color: _tagColor,
       subject: _selectedSubject,
       timestamp: DateTime.now().millisecondsSinceEpoch,
       dueDate: _dueDate,

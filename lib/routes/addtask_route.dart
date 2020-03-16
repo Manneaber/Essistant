@@ -433,6 +433,7 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
               );
 
               if (newDateTime != null) {
+                newDateTime = DateTime(newDateTime.year, newDateTime.month, newDateTime.day);
                 _dueDate = newDateTime.millisecondsSinceEpoch;
                 setState(() {
                   _dueDateText =

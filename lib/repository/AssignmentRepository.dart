@@ -494,7 +494,7 @@ class AssignmentRepository {
         year: maps[0]['year'],
       );
     } else {
-      return SubjectData(id: id);
+      return null;
     }
   }
 

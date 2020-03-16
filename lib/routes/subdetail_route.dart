@@ -1,3 +1,4 @@
+import 'package:essistant/NotificationCenter.dart';
 import 'package:essistant/repository/AssignmentRepository.dart';
 import 'package:essistant/repository/data/AssignmentData.dart';
 import 'package:essistant/repository/data/SubjectData.dart';
@@ -177,6 +178,7 @@ class _SubDatailRouteState extends State<SubDatailRoute> {
                         onPressed: () async {
                           await AssignmentRepository.removeSubjectByID(
                               subjectData.id);
+                          await NotificationCenter.cancel(id: subjectData.id);
                           navigationKey.currentState.pop();
                           navigationKey.currentState.pop();
                         },
