@@ -10,7 +10,6 @@ class AssignmentAttachmentData {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'assid': assid,
       'url': url,
       'type': type.index,

@@ -72,7 +72,6 @@ class _AddTaskRouteState extends State<AddTaskRoute> {
                       ),
                       FlatButton(
                         onPressed: () async {
-                          await AssignmentRepository.clearAll();
                           Navigator.of(context).pop(0);
                         },
                         child: Text("คลัง"),

@@ -136,7 +136,6 @@ class _EditTaskRouteState extends State<EditTaskRoute> {
                       ),
                       FlatButton(
                         onPressed: () async {
-                          await AssignmentRepository.clearAll();
                           Navigator.of(context).pop(0);
                         },
                         child: Text("คลัง"),

@@ -101,7 +101,15 @@ class _SubjectRouteState extends State<SubjectRoute> {
                 if (cards.length > 0) {
                   return Column(children: cards);
                 } else {
-                  return Container();
+                  return Container(
+                    margin: EdgeInsets.only(top: 15),
+                    child: Center(
+                      child: Text(
+                        'เพิ่มวิชาใหม่ได้เลย',
+                        style: TextStyle(fontSize: 17, color: Colors.black45),
+                      ),
+                    ),
+                  );
                 }
               } else {
                 return Container(
@@ -154,15 +162,17 @@ class _SubjectRouteState extends State<SubjectRoute> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 15),
                     ),
-                    subjectData.teacher.length > 0 ? Text(
-                      subjectData.teacher,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ) : Container(),
+                    subjectData.teacher.length > 0
+                        ? Text(
+                            subjectData.teacher,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),
