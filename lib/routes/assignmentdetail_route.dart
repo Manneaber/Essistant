@@ -157,6 +157,8 @@ class _AssignmentDetailRouteState extends State<AssignmentDetailRoute> {
                       children: <Widget>[
                         Text(
                           subjectData.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.black,

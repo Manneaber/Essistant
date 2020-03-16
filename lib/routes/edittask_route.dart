@@ -291,6 +291,8 @@ class _EditTaskRouteState extends State<EditTaskRoute> {
                         children: <Widget>[
                           Text(
                             _selectedSubjectText,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black54,
