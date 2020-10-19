@@ -644,6 +644,7 @@ class _EditTaskRouteState extends State<EditTaskRoute> {
       _descController.text = assignmentData.desc;
       _selectedSubject = assignmentData.subject;
       _selectedSubjectText = assignmentData.subject.title;
+      _tagColor = assignmentData.color;
       if (assignmentData.dueDate != null) {
         _dueDate = assignmentData.dueDate;
         _dueDateText = DateFormat("dd MMMM yyyy", 'th_TH').format(
