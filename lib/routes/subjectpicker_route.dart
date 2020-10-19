@@ -82,9 +82,8 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
 
                 // Sort
                 var newMap = Map.fromEntries(subjectMap.entries.toList()
-
-                  ..sort((e1, e2) => int.parse(e2.key)
-                      .compareTo(int.parse(e1.key))));
+                  ..sort((e1, e2) =>
+                      int.parse(e2.key).compareTo(int.parse(e1.key))));
 
                 for (List<SubjectData> subjs in newMap.values) {
                   cards.add(_buildCard(subjs));
@@ -125,7 +124,11 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      navigationKey.currentState.pushNamed("/addsubject");
+                      navigationKey.currentState
+                          .pushNamed("/addsubject")
+                          .then((value) {
+                        setState(() {});
+                      });
                     },
                     child: SizedBox(
                       height: 75,
@@ -190,15 +193,17 @@ class _SubjectPickerRouteState extends State<SubjectPickerRoute> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 15),
                     ),
-                    subjectData.teacher.length > 0 ? Text(
-                      subjectData.teacher,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ) : Container(),
+                    subjectData.teacher.length > 0
+                        ? Text(
+                            subjectData.teacher,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

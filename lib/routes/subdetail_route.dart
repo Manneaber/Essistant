@@ -195,6 +195,8 @@ class _SubDatailRouteState extends State<SubDatailRoute> {
             onPressed: () {
               navigationKey.currentState.pushNamed("/addtask", arguments: {
                 "subject": subjectData,
+              }).then((value) {
+                setState(() {});
               });
             },
           ),
