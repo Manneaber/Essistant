@@ -62,7 +62,11 @@ class _SubjectRouteState extends State<SubjectRoute> {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                navigationKey.currentState.pushNamed('/addsubject');
+                navigationKey.currentState
+                    .pushNamed('/addsubject')
+                    .then((value) {
+                  setState(() {});
+                });
               }),
         ],
         title: Text("วิชา"),

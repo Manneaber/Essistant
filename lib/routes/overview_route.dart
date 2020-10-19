@@ -127,7 +127,9 @@ class _OverviewRouteState extends State<OverviewRoute> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          navigationKey.currentState.pushNamed('/addtask');
+          navigationKey.currentState.pushNamed('/addtask').then((value) {
+            setState(() {});
+          });
         },
       ),
       backgroundColor: Colors.grey[100],
