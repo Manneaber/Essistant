@@ -134,7 +134,7 @@ class _SettingRouteState extends State<SettingRoute> {
                     children: <Widget>[
                       Text("Essistant", style: TextStyle(fontSize: 16)),
                       Text(
-                        "Beta Build 16032020-1",
+                        "Beta Build 20102020-1",
                         maxLines: 1,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
